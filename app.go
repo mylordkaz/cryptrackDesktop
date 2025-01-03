@@ -2,17 +2,22 @@ package main
 
 import (
 	"context"
-	"fmt"
+	"cryptrack/backend/api"
+	"cryptrack/backend/models"
 )
 
 // App struct
 type App struct {
 	ctx context.Context
+	api *api.API
 }
 
 // NewApp creates a new App application struct
 func NewApp() *App {
-	return &App{}
+	apiKey := "api-key"
+	return &App{
+		api: api.NewAPI(apiKey),
+	}
 }
 
 // startup is called when the app starts. The context is saved
@@ -21,7 +26,6 @@ func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 }
 
-// Greet returns a greeting for the given name
-func (a *App) Greet(name string) string {
-	return fmt.Sprintf("Hello %s, It's show time!", name)
+func (a *App) GetCryptosList() ([]models.Crypto, error) {
+	return a.api.FetchCryptos()
 }
