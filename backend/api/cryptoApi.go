@@ -14,13 +14,13 @@ type API struct {
 func NewAPI(apiKey string) *API {
 	return &API{
 		apiKey:  apiKey,
-		baseURL: "http//:pro-api.coinmarketcap.com/v1",
+		baseURL: "http://pro-api.coinmarketcap.com/v1",
 	}
 }
 
 func (api *API) FetchCryptos() ([]models.Crypto, error) {
 	client := &http.Client{}
-	req, err := http.NewRequest("GET", api.baseURL+"/cryptocurrency/map", nil)
+	req, err := http.NewRequest("GET", api.baseURL+"/cryptocurrency/listings/latest", nil)
 	if err != nil {
 		return nil, err
 	}
