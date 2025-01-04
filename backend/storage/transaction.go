@@ -4,6 +4,7 @@ import (
 	"cryptrack/backend/models"
 	"encoding/json"
 	"os"
+	"path/filepath"
 )
 
 type TransactionStorage struct {
@@ -12,8 +13,11 @@ type TransactionStorage struct {
 }
 
 func NewTransactionStorage() *TransactionStorage {
+	if err := os.MkdirAll("data", 0755); err != nil {
+		return &TransactionStorage{dataPath: "crypto_transactions.json"}
+	}
 	return &TransactionStorage{
-		dataPath: "crypto_transaction.json",
+		dataPath: filepath.Join("data", "crypto_transactions.json"),
 	}
 }
 
