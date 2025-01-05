@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { GetCryptosList, AddTransaction } from "../../wailsjs/go/main/App";
 
 interface AddTransactionModalProps {
   isOpen: boolean;
@@ -31,7 +32,7 @@ export function AddTransactionModal({
   useEffect(() => {
     const loadCryptos = async () => {
       try {
-        const cryptos = await window.go.main.App.GetCryptosList();
+        const cryptos = await GetCryptosList();
         setCryptoList(cryptos);
       } catch (error) {
         console.error("Failed to load cryptos list:", error);
@@ -44,7 +45,7 @@ export function AddTransactionModal({
     e.preventDefault();
 
     try {
-      await window.go.main.App.AddTransaction(
+      await AddTransaction(
         selectedCrypto,
         parseFloat(quantity),
         parseFloat(price),

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { GetTransactions } from "../../wailsjs/go/main/App";
 import { AddTransactionModal } from "./AddTransactionModal";
 
 interface CryptoHolding {
@@ -16,7 +17,7 @@ export function Dashboard() {
   // load & calculate holdings
   const loadHoldings = async () => {
     try {
-      const transactions = await window.go.main.App.GetTransactions();
+      const transactions = await GetTransactions();
 
       // Group by crypto
       const holdingsMap = new Map<string, CryptoHolding>();
@@ -80,10 +81,10 @@ export function Dashboard() {
                   Holdings
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Total Value
+                  Avg.Buy Price
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Avg.Buy Price
+                  Total Value
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Price
