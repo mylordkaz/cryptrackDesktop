@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"cryptrack/backend/api"
+	"cryptrack/backend/config"
 	"cryptrack/backend/models"
 	"cryptrack/backend/services"
 	"cryptrack/backend/storage"
@@ -18,7 +19,7 @@ type App struct {
 
 // NewApp creates a new App application struct
 func NewApp() *App {
-	apiKey := "api-key"
+	apiKey := config.LoadAPIKey()
 	storage := storage.NewTransactionStorage()
 	return &App{
 		api:           api.NewAPI(apiKey),
