@@ -3,8 +3,9 @@ package models
 import "time"
 
 type Crypto struct {
-	Symbol string `json:"symbol"`
-	Name   string `json:"name"`
+	Symbol       string  `json:"symbol"`
+	Name         string  `json:"name"`
+	CurrentPrice float64 `json:"currentPrice"`
 }
 
 type Transaction struct {

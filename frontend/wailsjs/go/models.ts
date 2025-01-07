@@ -3,6 +3,7 @@ export namespace models {
 	export class Crypto {
 	    symbol: string;
 	    name: string;
+	    currentPrice: number;
 	
 	    static createFrom(source: any = {}) {
 	        return new Crypto(source);
@@ -12,6 +13,7 @@ export namespace models {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.symbol = source["symbol"];
 	        this.name = source["name"];
+	        this.currentPrice = source["currentPrice"];
 	    }
 	}
 	export class Transaction {

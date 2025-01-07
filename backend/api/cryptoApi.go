@@ -38,6 +38,11 @@ func (api *API) FetchCryptos() ([]models.Crypto, error) {
 		Data []struct {
 			Symbol string `json:"symbol"`
 			Name   string `json:"name"`
+			Quote  struct {
+				USD struct {
+					Price float64 `json:"price"`
+				} `json:"USD"`
+			} `json:"quote"`
 		} `json:"data"`
 	}
 	if err := json.NewDecoder(resp.Body).Decode(&response); err != nil {
@@ -49,8 +54,9 @@ func (api *API) FetchCryptos() ([]models.Crypto, error) {
 			break
 		}
 		cryptos = append(cryptos, models.Crypto{
-			Symbol: coin.Symbol,
-			Name:   coin.Name,
+			Symbol:       coin.Symbol,
+			Name:         coin.Name,
+			CurrentPrice: coin.Quote.USD.Price,
 		})
 	}
 	return cryptos, nil
