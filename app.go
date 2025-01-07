@@ -38,8 +38,8 @@ func (a *App) GetCryptosList() ([]models.Crypto, error) {
 	return a.api.FetchCryptos()
 }
 
-func (a *App) AddTransaction(crypto string, amount float64, price float64, total float64, date string) error {
-	transaction, err := a.cryptoService.CreateTransaction(crypto, amount, price, total, date)
+func (a *App) AddTransaction(crypto string, amount float64, price float64, total float64, date string, transactionType string) error {
+	transaction, err := a.cryptoService.CreateTransaction(crypto, amount, price, total, date, transactionType)
 	if err != nil {
 		return err
 	}
