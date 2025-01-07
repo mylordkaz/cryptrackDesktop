@@ -6,6 +6,7 @@ type Crypto struct {
 	Symbol       string  `json:"symbol"`
 	Name         string  `json:"name"`
 	CurrentPrice float64 `json:"currentPrice"`
+	LogoUrl      string  `json:"logoUrl"`
 }
 
 type Transaction struct {

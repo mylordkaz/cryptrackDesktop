@@ -4,6 +4,7 @@ export namespace models {
 	    symbol: string;
 	    name: string;
 	    currentPrice: number;
+	    logoUrl: string;
 	
 	    static createFrom(source: any = {}) {
 	        return new Crypto(source);
@@ -14,6 +15,7 @@ export namespace models {
 	        this.symbol = source["symbol"];
 	        this.name = source["name"];
 	        this.currentPrice = source["currentPrice"];
+	        this.logoUrl = source["logoUrl"];
 	    }
 	}
 	export class Transaction {

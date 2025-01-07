@@ -9,6 +9,7 @@ interface CryptoHolding {
   averagePrice: number;
   totalValue: number;
   currentPrice: number;
+  logoUrl: string;
 }
 
 export function Dashboard() {
@@ -27,7 +28,10 @@ export function Dashboard() {
       ]);
 
       const priceMap = new Map(
-        cryptos.map((crypto) => [crypto.symbol, crypto.currentPrice]),
+        cryptos.map((crypto) => [
+          crypto.symbol,
+          crypto.currentPrice, // Store the price directly
+        ]),
       );
 
       // Group by crypto
@@ -40,12 +44,14 @@ export function Dashboard() {
           total: number;
           type: string;
         }) => {
+          const crypto = cryptos.find((c) => c.symbol === tx.CryptoSymbol);
           const existing = holdingsMap.get(tx.CryptoSymbol) || {
             symbol: tx.CryptoSymbol,
             totalAmount: 0,
             averagePrice: 0,
             totalValue: 0,
             currentPrice: priceMap.get(tx.CryptoSymbol) || 0,
+            logoUrl: crypto?.logoUrl || "",
           };
 
           existing.totalAmount += tx.amount;
@@ -150,12 +156,18 @@ export function Dashboard() {
                   className="cursor-pointer hover:bg-gray-50"
                 >
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {holding.symbol}
-                  </td>
+                    <div className="flex items-center">
+                      <img
+                        src={holding.logoUrl}
+                        alt={holding.symbol}
+                        className="w-6 h-6 mr-2"
+                      />
+                      {holding.symbol}
+                    </div>
+                  </td>{" "}
                   <td className="px-6 py-4 whitespace-nowrap">
                     ${holding.currentPrice.toFixed(2)}
                   </td>
-
                   <td className="px-6 py-4 whitespace-nowrap">
                     {holding.totalAmount.toFixed(2)}
                   </td>

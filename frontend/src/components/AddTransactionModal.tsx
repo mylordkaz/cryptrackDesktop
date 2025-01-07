@@ -1,3 +1,6 @@
+import Select from "react-select";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { useEffect, useState } from "react";
 import {
   GetCryptosList,
@@ -16,6 +19,11 @@ interface Crypto {
   name: string;
   currentPrice: number;
 }
+interface CryptoOption {
+  value: string;
+  label: string;
+  logoUrl: string;
+}
 
 export function AddTransactionModal({
   isOpen,
@@ -24,13 +32,20 @@ export function AddTransactionModal({
 }: AddTransactionModalProps) {
   const [tab, setTab] = useState<"buy" | "sell">("buy");
   const [cryptoList, setCryptoList] = useState<
-    Array<{ symbol: string; name: string }>
+    Array<{ symbol: string; name: string; currentPrice: number }>
   >([]);
   const [selectedCrypto, setSelectedCrypto] = useState("");
   const [quantity, setQuantity] = useState("");
   const [price, setPrice] = useState("");
   const [total, setTotal] = useState("");
-  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
+  const [date, setDate] = useState(new Date().toISOString().slice(0, 16));
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
+  const cryptoOptions: CryptoOption[] = cryptoList.map((crypto) => ({
+    value: crypto.symbol,
+    label: `${crypto.symbol} - ${crypto.name}`,
+    logoUrl: crypto.logoUrl,
+  }));
 
   useEffect(() => {
     if (quantity && price) {
@@ -65,6 +80,8 @@ export function AddTransactionModal({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    const formattedDate = selectedDate.toISOString();
+
     try {
       if (tab === "sell") {
         const holdings = await GetTransactions();
@@ -87,7 +104,7 @@ export function AddTransactionModal({
         parseFloat(quantity),
         parseFloat(price),
         parseFloat(total),
-        date,
+        formattedDate,
         tab,
       );
 
@@ -140,18 +157,40 @@ export function AddTransactionModal({
             <label className="text-sm font-medium text-gray-700">
               Select Crypto
             </label>
-            <select
-              className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 appearance-none"
-              value={selectedCrypto}
-              onChange={(e) => setSelectedCrypto(e.target.value)}
-            >
-              <option value="">Choose cryptocurrency</option>
-              {cryptoList.map((crypto) => (
-                <option key={crypto.symbol} value={crypto.symbol}>
-                  {crypto.symbol} - {crypto.name}
-                </option>
-              ))}
-            </select>
+            <Select
+              value={cryptoOptions.find(
+                (option) => option.value === selectedCrypto,
+              )}
+              onChange={(option) => {
+                if (option) {
+                  setSelectedCrypto(option.value);
+                }
+              }}
+              options={cryptoOptions}
+              formatOptionLabel={(option: CryptoOption) => (
+                <div className="flex items-center">
+                  <img
+                    src={option.logoUrl}
+                    alt={option.value}
+                    className="w-6 h-6 mr-2"
+                  />
+                  <span>{option.label}</span>
+                </div>
+              )}
+              className="text-gray-900"
+              placeholder="Search cryptocurrency..."
+              isClearable
+              isSearchable
+              classNames={{
+                control: (state) =>
+                  "p-1 bg-gray-50 border border-gray-200 rounded-lg focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500",
+                input: () => "text-gray-900",
+                option: (state) =>
+                  state.isFocused
+                    ? "bg-blue-50 cursor-pointer"
+                    : "bg-white cursor-pointer hover:bg-gray-50",
+              }}
+            />
           </div>
 
           {/* Amount and Price */}
@@ -197,14 +236,20 @@ export function AddTransactionModal({
           {/* Date */}
           <div className="space-y-2">
             <label className="text-sm font-medium text-gray-700">Date</label>
-            <input
-              type="date"
+            <DatePicker
+              selected={selectedDate}
+              onChange={(date: Date | null) => {
+                if (date) setSelectedDate(date);
+              }}
+              showTimeSelect
+              timeFormat="HH:mm"
+              timeIntervals={15}
+              dateFormat="MMM d, yyyy h:mm aa"
               className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
+              popperClassName="react-datepicker-popper"
+              calendarClassName="rounded-lg border shadow-lg"
             />
           </div>
-
           {/* Action Buttons */}
           <div className="flex gap-4 pt-4">
             <button

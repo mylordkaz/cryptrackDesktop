@@ -53,7 +53,13 @@ export function TransactionList({
           {transactions.map((tx) => (
             <tr key={tx.id}>
               <td className="px-6 py-4 whitespace-nowrap">
-                {new Date(tx.date).toLocaleDateString()}
+                {new Date(tx.date).toLocaleString("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
                 <span
