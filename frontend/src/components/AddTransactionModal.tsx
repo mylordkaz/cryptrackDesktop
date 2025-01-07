@@ -1,10 +1,20 @@
 import { useEffect, useState } from "react";
-import { GetCryptosList, AddTransaction } from "../../wailsjs/go/main/App";
+import {
+  GetCryptosList,
+  AddTransaction,
+  GetTransactions,
+} from "../../wailsjs/go/main/App";
 
 interface AddTransactionModalProps {
   isOpen: boolean;
   onClose: () => void;
   onTransactionAdded: () => void;
+}
+
+interface Crypto {
+  symbol: string;
+  name: string;
+  currentPrice: number;
 }
 
 export function AddTransactionModal({
@@ -41,16 +51,44 @@ export function AddTransactionModal({
     loadCryptos();
   }, []);
 
+  useEffect(() => {
+    if (selectedCrypto) {
+      const selectedCryptoData = cryptoList.find(
+        (crypto) => crypto.symbol === selectedCrypto,
+      );
+      if (selectedCryptoData) {
+        setPrice(selectedCryptoData.currentPrice.toString());
+      }
+    }
+  }, [selectedCrypto, cryptoList]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
+      if (tab === "sell") {
+        const holdings = await GetTransactions();
+        const cryptoHoldings = holdings.reduce((total: number, tx: any) => {
+          if (tx.CryptoSymbol === selectedCrypto) {
+            return total + tx.Amount;
+          }
+          return total;
+        }, 0);
+
+        if (parseFloat(quantity) > cryptoHoldings) {
+          alert(
+            `Not enought ${selectedCrypto} to sell. Current holdings: ${cryptoHoldings}`,
+          );
+          return;
+        }
+      }
       await AddTransaction(
         selectedCrypto,
         parseFloat(quantity),
         parseFloat(price),
         parseFloat(total),
         date,
+        tab,
       );
 
       setSelectedCrypto("");
@@ -58,6 +96,7 @@ export function AddTransactionModal({
       setPrice("");
       setTotal("");
       setDate(new Date().toISOString().split("T")[0]);
+      setTab("buy");
 
       onTransactionAdded();
       onClose();
