@@ -32,7 +32,12 @@ export function AddTransactionModal({
 }: AddTransactionModalProps) {
   const [tab, setTab] = useState<"buy" | "sell">("buy");
   const [cryptoList, setCryptoList] = useState<
-    Array<{ symbol: string; name: string; currentPrice: number }>
+    Array<{
+      symbol: string;
+      name: string;
+      currentPrice: number;
+      logoUrl: string;
+    }>
   >([]);
   const [selectedCrypto, setSelectedCrypto] = useState("");
   const [quantity, setQuantity] = useState("");

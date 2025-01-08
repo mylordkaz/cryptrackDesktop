@@ -6,10 +6,18 @@ export function AddTransaction(arg1, arg2, arg3, arg4, arg5, arg6) {
   return window['go']['main']['App']['AddTransaction'](arg1, arg2, arg3, arg4, arg5, arg6);
 }
 
+export function DeleteTransaction(arg1) {
+  return window['go']['main']['App']['DeleteTransaction'](arg1);
+}
+
 export function GetCryptosList() {
   return window['go']['main']['App']['GetCryptosList']();
 }
 
 export function GetTransactions() {
   return window['go']['main']['App']['GetTransactions']();
+}
+
+export function UpdateTransaction(arg1, arg2, arg3, arg4, arg5, arg6, arg7) {
+  return window['go']['main']['App']['UpdateTransaction'](arg1, arg2, arg3, arg4, arg5, arg6, arg7);
 }

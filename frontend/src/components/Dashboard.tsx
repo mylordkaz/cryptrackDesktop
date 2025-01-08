@@ -58,7 +58,8 @@ export function Dashboard() {
 
           if (tx.type === "buy") {
             existing.totalValue += tx.total;
-
+          }
+          if (existing.totalAmount > 0) {
             existing.averagePrice = existing.totalValue / existing.totalAmount;
           }
 
@@ -66,13 +67,14 @@ export function Dashboard() {
         },
       );
 
-      const holdingsArray = Array.from(holdingsMap.values()).filter(
-        (holding) => holding.totalAmount > 0,
-      );
+      const holdingsArray = Array.from(holdingsMap.values());
       setHoldings(holdingsArray);
 
       const currentPortfolioValue = holdingsArray.reduce((sum, holding) => {
-        const currentValue = holding.currentPrice * holding.totalAmount;
+        const currentValue =
+          holding.totalAmount > 0
+            ? holding.currentPrice * holding.totalAmount
+            : 0;
         return sum + currentValue;
       }, 0);
       setTotalValue(currentPortfolioValue);
@@ -101,6 +103,8 @@ export function Dashboard() {
           cryptoSymbol={selectedCrypto}
           transactions={transactions}
           onBack={() => setSelectedCrypto(null)}
+          onTransactionDeleted={loadHoldings}
+          setTransactions={setTransactions}
         />
       </div>
     );
