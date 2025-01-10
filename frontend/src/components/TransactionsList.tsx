@@ -28,6 +28,8 @@ export function TransactionList({
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState<any>(null);
 
+  const totalSum = transactions.reduce((sum, tx) => sum + tx.total, 0);
+
   const handleEdit = (transaction: any) => {
     setSelectedTransaction(transaction);
     setIsEditModalOpen(true);
@@ -46,14 +48,24 @@ export function TransactionList({
   return (
     <>
       <div className="bg-white rounded-lg shadow-md text-black p-6">
-        <div className="flex items-center mb-4">
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h2 className="text-gray-500 text-sm font-semibold mb-2 text-left">
+              {cryptoSymbol} Transactions
+            </h2>
+            <div className="bg-gray-50 p-3 rounded-lg">
+              <span className="text-sm mr-2 text-gray-700">Total Value: </span>
+              <span className="text-lg font-semibold">
+                ${totalSum.toFixed(2)}
+              </span>
+            </div>
+          </div>
           <button
             onClick={onBack}
-            className="mr-4 text-blue-500 hover:text-blue-600"
+            className="px-4 py-2 text-blue-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
           >
             ← Back
-          </button>
-          <h2 className="text-gray-500 text-sm">{cryptoSymbol} Transactions</h2>
+          </button>{" "}
         </div>
 
         <table className="w-full">
