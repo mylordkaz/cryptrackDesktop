@@ -45,6 +45,7 @@ export function AddTransactionModal({
   const [total, setTotal] = useState("");
   const [date, setDate] = useState(new Date().toISOString().slice(0, 16));
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [error, setError] = useState("");
 
   const cryptoOptions: CryptoOption[] = cryptoList.map((crypto) => ({
     value: crypto.symbol,
@@ -84,6 +85,12 @@ export function AddTransactionModal({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
+
+    if (!selectedCrypto) {
+      setError("Please select a cryptocurrency");
+      return;
+    }
 
     const formattedDate = selectedDate.toISOString();
 
@@ -119,6 +126,7 @@ export function AddTransactionModal({
       setTotal("");
       setDate(new Date().toISOString().split("T")[0]);
       setTab("buy");
+      setError("");
 
       onTransactionAdded();
       onClose();
@@ -160,7 +168,7 @@ export function AddTransactionModal({
           {/* Select Crypto */}
           <div className="space-y-2">
             <label className="text-sm font-medium text-gray-700">
-              Select Crypto
+              Select Crypto <span className="text-red-400">*</span>
             </label>
             <Select
               value={cryptoOptions.find(
@@ -169,6 +177,9 @@ export function AddTransactionModal({
               onChange={(option) => {
                 if (option) {
                   setSelectedCrypto(option.value);
+                  setError("");
+                } else {
+                  setSelectedCrypto("");
                 }
               }}
               options={cryptoOptions}
@@ -182,13 +193,15 @@ export function AddTransactionModal({
                   <span>{option.label}</span>
                 </div>
               )}
-              className="text-gray-900"
+              className={`text-gray-900 ${!selectedCrypto && "border-red-500"}`}
               placeholder="Search cryptocurrency..."
               isClearable
               isSearchable
               classNames={{
                 control: (state) =>
-                  "p-1 bg-gray-50 border border-gray-200 rounded-lg focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500",
+                  `p-1 bg-gray-50 border ${
+                    !selectedCrypto ? "border-red-500" : "border-gray-200"
+                  } rounded-lg focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500`,
                 input: () => "text-gray-900",
                 option: (state) =>
                   state.isFocused
@@ -196,6 +209,7 @@ export function AddTransactionModal({
                     : "bg-white cursor-pointer hover:bg-gray-50",
               }}
             />
+            {error && <p className="text-red-400 text-sm mt-1">{error}</p>}
           </div>
 
           {/* Amount and Price */}
