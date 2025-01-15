@@ -16,5 +16,6 @@ type Transaction struct {
 	Price        float64   `json:"price"`
 	Total        float64   `json:"total"`
 	Date         time.Time `json:"date"`
+	Note         string    `json:"note"`
 	Type         string    `json:"type"`
 }

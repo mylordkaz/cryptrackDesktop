@@ -18,7 +18,7 @@ func NewCryptoService(storage *storage.TransactionStorage) *CryptoService {
 	}
 }
 
-func (s *CryptoService) CreateTransaction(crypto string, amount float64, price float64, total float64, date string, transactionType string) (models.Transaction, error) {
+func (s *CryptoService) CreateTransaction(crypto string, amount float64, price float64, total float64, date string, transactionType string, note string) (models.Transaction, error) {
 	// calculate price if total is provided
 	if total > 0 && price == 0 {
 		price = total / amount
@@ -45,5 +45,6 @@ func (s *CryptoService) CreateTransaction(crypto string, amount float64, price f
 		Total:        total,
 		Date:         parsedDate,
 		Type:         transactionType,
+		Note:         note,
 	}, nil
 }

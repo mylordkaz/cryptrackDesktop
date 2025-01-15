@@ -26,6 +26,7 @@ export namespace models {
 	    total: number;
 	    // Go type: time
 	    date: any;
+	    note: string;
 	    type: string;
 	
 	    static createFrom(source: any = {}) {
@@ -40,6 +41,7 @@ export namespace models {
 	        this.price = source["price"];
 	        this.total = source["total"];
 	        this.date = this.convertValues(source["date"], null);
+	        this.note = source["note"];
 	        this.type = source["type"];
 	    }
 	

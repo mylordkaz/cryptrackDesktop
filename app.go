@@ -39,8 +39,8 @@ func (a *App) GetCryptosList() ([]models.Crypto, error) {
 	return a.api.FetchCryptos()
 }
 
-func (a *App) AddTransaction(crypto string, amount float64, price float64, total float64, date string, transactionType string) error {
-	transaction, err := a.cryptoService.CreateTransaction(crypto, amount, price, total, date, transactionType)
+func (a *App) AddTransaction(crypto string, amount float64, price float64, total float64, date string, transactionType string, note string) error {
+	transaction, err := a.cryptoService.CreateTransaction(crypto, amount, price, total, date, transactionType, note)
 	if err != nil {
 		return err
 	}
@@ -57,7 +57,7 @@ func (a *App) GetTransactions() ([]models.Transaction, error) {
 	return a.storage.Load()
 }
 
-func (a *App) UpdateTransaction(id string, crypto string, amount float64, price float64, total float64, date string, transactionType string) error {
+func (a *App) UpdateTransaction(id string, crypto string, amount float64, price float64, total float64, date string, transactionType string, note string) error {
 	transactions, err := a.storage.Load()
 	if err != nil {
 		return err
@@ -79,6 +79,7 @@ func (a *App) UpdateTransaction(id string, crypto string, amount float64, price 
 				Total:        total,
 				Date:         parsedDate,
 				Type:         transactionType,
+				Note:         note,
 			}
 		} else {
 			updatedTransactions[i] = tx
