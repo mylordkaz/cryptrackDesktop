@@ -46,6 +46,7 @@ export function AddTransactionModal({
   const [date, setDate] = useState(new Date().toISOString().slice(0, 16));
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [error, setError] = useState("");
+  const [note, setNote] = useState("");
 
   const cryptoOptions: CryptoOption[] = cryptoList.map((crypto) => ({
     value: crypto.symbol,
@@ -118,6 +119,7 @@ export function AddTransactionModal({
         parseFloat(total),
         formattedDate,
         tab,
+        note,
       );
 
       setSelectedCrypto("");
@@ -127,6 +129,7 @@ export function AddTransactionModal({
       setDate(new Date().toISOString().split("T")[0]);
       setTab("buy");
       setError("");
+      setNote("");
 
       onTransactionAdded();
       onClose();
@@ -269,6 +272,18 @@ export function AddTransactionModal({
               calendarClassName="rounded-lg border shadow-lg"
             />
           </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-700">Note</label>
+            <textarea
+              placeholder="Add a note to this transaction..."
+              className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+              rows={3}
+            />
+          </div>
+
           {/* Action Buttons */}
           <div className="flex gap-4 pt-4">
             <button

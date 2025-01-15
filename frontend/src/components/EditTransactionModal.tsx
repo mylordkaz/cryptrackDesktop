@@ -13,6 +13,7 @@ interface EditTransactionModalProps {
     total: number;
     date: string;
     type: string;
+    note: string;
   };
   onTransactionUpdated: () => void;
 }
@@ -26,6 +27,7 @@ export function EditTransactionModal({
   const [amount, setAmount] = useState(transaction.amount.toString());
   const [price, setPrice] = useState(transaction.price.toString());
   const [total, setTotal] = useState(transaction.total.toString());
+  const [note, setNote] = useState(transaction.note || "");
   const [selectedDate, setSelectedDate] = useState(new Date(transaction.date));
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -40,6 +42,7 @@ export function EditTransactionModal({
         parseFloat(total),
         selectedDate.toISOString(),
         transaction.type,
+        note,
       );
 
       onTransactionUpdated();
@@ -116,6 +119,17 @@ export function EditTransactionModal({
               timeIntervals={15}
               dateFormat="MMM d, yyyy h:mm aa"
               className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-700">Note</label>
+            <textarea
+              placeholder="Add a note to this transaction..."
+              className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+              rows={3}
             />
           </div>
 
