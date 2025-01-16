@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { GetCryptosList, GetTransactions } from "../../wailsjs/go/main/App";
+import { formatCrypto, formatNumber } from "../utils/numberFormat";
 import { AddTransactionModal } from "./AddTransactionModal";
 import { TransactionList } from "./TransactionsList";
 
@@ -170,16 +171,16 @@ export function Dashboard() {
                     </div>
                   </td>{" "}
                   <td className="px-6 py-4 whitespace-nowrap">
-                    ${holding.currentPrice.toFixed(2)}
+                    ${formatNumber(holding.currentPrice)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {holding.totalAmount.toFixed(2)}
+                    {formatCrypto(holding.totalAmount)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    ${holding.averagePrice.toFixed(2)}
+                    ${formatNumber(holding.averagePrice)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    ${holding.totalValue.toFixed(2)}
+                    ${formatNumber(holding.totalValue)}
                   </td>
                 </tr>
               ))}

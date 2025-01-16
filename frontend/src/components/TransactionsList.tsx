@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { DeleteTransaction } from "../../wailsjs/go/main/App";
+import { formatCrypto, formatNumber } from "../utils/numberFormat";
 import { EditTransactionModal } from "./EditTransactionModal";
 
 interface TransactionListProps {
@@ -114,13 +115,13 @@ export function TransactionList({
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  {tx.amount.toFixed(8)}
+                  {formatCrypto(tx.amount, true)}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  ${tx.price.toFixed(2)}
+                  ${formatNumber(tx.price)}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  ${tx.total.toFixed(2)}
+                  ${formatNumber(tx.total)}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   {tx.note && (
