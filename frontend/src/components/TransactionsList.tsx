@@ -31,6 +31,10 @@ export function TransactionList({
   const [selectedTransaction, setSelectedTransaction] = useState<any>(null);
   const [activeNote, setActiveNote] = useState<string | null>(null);
   const totalSum = transactions.reduce((sum, tx) => sum + tx.total, 0);
+  const [notePosition, setNotePosition] = useState<{
+    top: number;
+    left: number;
+  } | null>(null);
 
   const handleEdit = (transaction: any) => {
     setSelectedTransaction(transaction);
@@ -123,18 +127,25 @@ export function TransactionList({
                 <td className="px-6 py-4 whitespace-nowrap">
                   ${formatNumber(tx.total)}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap">
+                <td className="px-6 py-4 whitespace-nowrap relative">
                   {tx.note && (
-                    <div className="relative">
+                    <>
                       <button
                         className="text-blue-500 hover:text-blue-600"
-                        onClick={() => setActiveNote(tx.note)}
+                        onClick={(e) => {
+                          const rect = e.currentTarget.getBoundingClientRect();
+                          setActiveNote(tx.note);
+                          setNotePosition({
+                            top: rect.bottom + window.scrollY,
+                            left: rect.left + window.scrollX,
+                          });
+                        }}
                       >
                         {tx.note.substring(0, 3)}...
                       </button>
-                    </div>
+                    </>
                   )}
-                </td>
+                </td>{" "}
                 <td className="px-6 py-4 whitespace-nowrap space-x-2">
                   <button
                     onClick={() => handleEdit(tx)}
@@ -171,20 +182,28 @@ export function TransactionList({
             ))}
           </tbody>
         </table>
-        {activeNote && (
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
-            <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full">
-              <h3 className="text-lg font-medium mb-4">Transaction Note</h3>
-              <p className="text-gray-700 whitespace-pre-wrap">{activeNote}</p>
-              <button
-                className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-                onClick={() => setActiveNote(null)}
-              >
-                Close
-              </button>
+        {activeNote && notePosition && (
+          <>
+            <div
+              className="fixed inset-0"
+              onClick={() => {
+                setActiveNote(null);
+                setNotePosition(null);
+              }}
+            />
+            <div
+              className="fixed z-50 bg-white rounded-lg shadow-lg p-4 max-w-xs"
+              style={{
+                top: `${notePosition.top}px`,
+                left: `${notePosition.left}px`,
+              }}
+            >
+              <div className="text-sm text-gray-700 whitespace-pre-wrap">
+                {activeNote}
+              </div>
             </div>
-          </div>
-        )}
+          </>
+        )}{" "}
       </div>
       {selectedTransaction && (
         <EditTransactionModal
