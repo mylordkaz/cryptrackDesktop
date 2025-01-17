@@ -57,35 +57,31 @@ func (a *App) GetTransactions() ([]models.Transaction, error) {
 	return a.storage.Load()
 }
 
-func (a *App) UpdateTransaction(id string, crypto string, amount float64, price float64, total float64, date string, transactionType string, note string) error {
+func (a *App) UpdateTransaction(id string, amount float64, price float64, total float64, date string, note string) error {
 	transactions, err := a.storage.Load()
 	if err != nil {
 		return err
 	}
 
-	parsedDate, err := time.Parse("2006-01-02T15:04", date)
-	if err != nil {
-		return err
-	}
-
-	updatedTransactions := make([]models.Transaction, len(transactions))
 	for i, tx := range transactions {
 		if tx.ID == id {
-			updatedTransactions[i] = models.Transaction{
-				ID:           id,
-				CryptoSymbol: crypto,
-				Amount:       amount,
-				Price:        price,
-				Total:        total,
-				Date:         parsedDate,
-				Type:         transactionType,
-				Note:         note,
+			// Keep original immutable fields
+			transactions[i].Amount = amount
+			transactions[i].Price = price
+			transactions[i].Total = total
+
+			// Parse and update date
+			parsedDate, err := time.Parse("2006-01-02T15:04", date)
+			if err != nil {
+				return err
 			}
-		} else {
-			updatedTransactions[i] = tx
+			transactions[i].Date = parsedDate
+
+			transactions[i].Note = note
+			break
 		}
 	}
-	return a.storage.Save(updatedTransactions)
+	return a.storage.Save(transactions)
 }
 
 func (a *App) DeleteTransaction(id string) error {

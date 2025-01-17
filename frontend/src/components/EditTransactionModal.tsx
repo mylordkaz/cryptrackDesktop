@@ -34,14 +34,17 @@ export function EditTransactionModal({
     e.preventDefault();
 
     try {
+      const formattedDate = selectedDate
+        .toISOString()
+        .replace(/\.\d{3}Z$/, "")
+        .slice(0, 16);
+
       await UpdateTransaction(
         transaction.id,
-        transaction.cryptoSymbol,
         parseFloat(amount),
         parseFloat(price),
         parseFloat(total),
-        selectedDate.toISOString(),
-        transaction.type,
+        formattedDate,
         note,
       );
 
