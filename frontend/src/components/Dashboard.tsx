@@ -96,16 +96,19 @@ export function Dashboard() {
     const filteredTransactions = allTransactions.filter(
       (tx: { CryptoSymbol: string }) => tx.CryptoSymbol === symbol,
     );
+    const currentHolding = holdings.find((h) => h.symbol === symbol);
     setTransactions(filteredTransactions);
     setSelectedCrypto(symbol);
   };
 
   if (selectedCrypto) {
+    const currentHolding = holdings.find((h) => h.symbol === selectedCrypto);
     return (
       <div className="p-6">
         <TransactionList
           cryptoSymbol={selectedCrypto}
           transactions={transactions}
+          currentPrice={currentHolding?.currentPrice || 0}
           onBack={() => setSelectedCrypto(null)}
           onTransactionDeleted={loadHoldings}
           setTransactions={setTransactions}

@@ -15,6 +15,7 @@ interface TransactionListProps {
     type: string;
     note: string;
   }>;
+  currentPrice: number;
   onBack: () => void;
   onTransactionDeleted: () => void;
   setTransactions: (transactions: any[]) => void;
@@ -23,6 +24,7 @@ interface TransactionListProps {
 export function TransactionList({
   cryptoSymbol,
   transactions,
+  currentPrice,
   onBack,
   onTransactionDeleted,
   setTransactions,
@@ -30,7 +32,8 @@ export function TransactionList({
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState<any>(null);
   const [activeNote, setActiveNote] = useState<string | null>(null);
-  const totalSum = transactions.reduce((sum, tx) => sum + tx.total, 0);
+  const sumTotal = transactions.reduce((sum, tx) => sum + tx.amount, 0);
+  const totalValue = sumTotal * currentPrice;
   const [notePosition, setNotePosition] = useState<{
     top: number;
     left: number;
@@ -62,7 +65,7 @@ export function TransactionList({
             <div className="bg-gray-50 p-3 rounded-lg">
               <span className="text-sm mr-2 text-gray-700">Total Value: </span>
               <span className="text-lg font-semibold">
-                ${totalSum.toFixed(2)}
+                ${formatNumber(totalValue)}
               </span>
             </div>
           </div>
