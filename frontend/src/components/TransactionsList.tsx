@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { DeleteTransaction } from "../../wailsjs/go/main/App";
 import { formatCrypto, formatNumber } from "../utils/numberFormat";
+import { calculGainStats } from "../utils/stats";
 import { EditTransactionModal } from "./EditTransactionModal";
 
 interface TransactionListProps {
@@ -39,6 +40,8 @@ export function TransactionList({
     left: number;
   } | null>(null);
 
+  const stats = calculGainStats(transactions, currentPrice);
+
   const handleEdit = (transaction: any) => {
     setSelectedTransaction(transaction);
     setIsEditModalOpen(true);
@@ -62,10 +65,20 @@ export function TransactionList({
             <h2 className="text-gray-500 text-sm font-semibold mb-2 text-left">
               {cryptoSymbol} Transactions
             </h2>
-            <div className="bg-gray-50 p-3 rounded-lg">
+            <div className="bg-gray-50 p-3 rounded-lg flex items-center gap-3">
               <span className="text-sm mr-2 text-gray-700">Total Value: </span>
               <span className="text-lg font-semibold">
                 ${formatNumber(totalValue)}
+              </span>
+              <span
+                className={`text-sm font-medium ${
+                  stats.gainLossPercentage >= 0
+                    ? "text-green-600"
+                    : "text-red-600"
+                }`}
+              >
+                {formatNumber(Math.abs(stats.gainLossPercentage))}%
+                {stats.gainLossPercentage >= 0 ? " ↑" : " ↓"}
               </span>
             </div>
           </div>
