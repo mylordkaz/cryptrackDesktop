@@ -68,7 +68,10 @@ export function Dashboard() {
         },
       );
 
-      const holdingsArray = Array.from(holdingsMap.values());
+      const holdingsArray = Array.from(holdingsMap.values()).map((holding) => ({
+        ...holding,
+        totalValue: holding.currentPrice * holding.totalAmount,
+      }));
       setHoldings(holdingsArray);
 
       const currentPortfolioValue = holdingsArray.reduce((sum, holding) => {
