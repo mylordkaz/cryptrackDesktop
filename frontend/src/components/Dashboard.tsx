@@ -9,6 +9,7 @@ interface CryptoHolding {
   totalAmount: number;
   averagePrice: number;
   totalValue: number;
+  totalTransactionValue: number;
   currentPrice: number;
   logoUrl: string;
 }
@@ -51,18 +52,20 @@ export function Dashboard() {
             totalAmount: 0,
             averagePrice: 0,
             totalValue: 0,
+            totalTransactionValue: 0,
             currentPrice: priceMap.get(tx.CryptoSymbol) || 0,
             logoUrl: crypto?.logoUrl || "",
           };
 
           existing.totalAmount += tx.amount;
+          existing.totalTransactionValue += tx.total;
 
-          if (tx.type === "buy") {
-            existing.totalValue += tx.total;
-          }
           if (existing.totalAmount > 0) {
-            existing.averagePrice = existing.totalValue / existing.totalAmount;
+            existing.averagePrice =
+              existing.totalTransactionValue / existing.totalAmount;
           }
+
+          existing.totalValue = existing.totalAmount * existing.currentPrice;
 
           holdingsMap.set(tx.CryptoSymbol, existing);
         },

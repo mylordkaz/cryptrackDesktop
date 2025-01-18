@@ -30,6 +30,8 @@ export function EditTransactionModal({
   const [note, setNote] = useState(transaction.note || "");
   const [selectedDate, setSelectedDate] = useState(new Date(transaction.date));
 
+  const displayTotal = transaction.type === "sell" ? -total : total;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -39,11 +41,16 @@ export function EditTransactionModal({
         .replace(/\.\d{3}Z$/, "")
         .slice(0, 16);
 
+      const submitTotal =
+        transaction.type === "sell"
+          ? -Math.abs(parseFloat(total))
+          : Math.abs(parseFloat(total));
+
       await UpdateTransaction(
         transaction.id,
         parseFloat(amount),
         parseFloat(price),
-        parseFloat(total),
+        submitTotal,
         formattedDate,
         note,
       );
@@ -99,7 +106,7 @@ export function EditTransactionModal({
             <label className="text-sm font-medium text-gray-700">Total</label>
             <input
               type="text"
-              value={`$ ${total}`}
+              value={`$ ${displayTotal}`}
               onChange={(e) => {
                 const value = e.target.value.replace("$", "").trim();
                 setTotal(value);

@@ -94,6 +94,10 @@ export function AddTransactionModal({
     }
 
     const formattedDate = selectedDate.toISOString();
+    const submitTotal =
+      tab === "sell"
+        ? -Math.abs(parseFloat(total))
+        : Math.abs(parseFloat(total));
 
     try {
       if (tab === "sell") {
@@ -116,7 +120,7 @@ export function AddTransactionModal({
         selectedCrypto,
         parseFloat(quantity),
         parseFloat(price),
-        parseFloat(total),
+        submitTotal,
         formattedDate,
         tab,
         note,

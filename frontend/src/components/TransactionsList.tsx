@@ -138,10 +138,10 @@ export function TransactionList({
                   {formatCrypto(tx.amount, true)}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  ${formatNumber(tx.price)}
+                  $ {formatNumber(tx.price)}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  ${formatNumber(tx.total)}
+                  $ {formatNumber(tx.total)}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap relative">
                   {tx.note && (
