@@ -4,9 +4,10 @@ import (
 	"context"
 	"cryptrack/backend/api"
 	"cryptrack/backend/config"
+	"cryptrack/backend/db"
 	"cryptrack/backend/models"
 	"cryptrack/backend/services"
-	"cryptrack/backend/storage"
+	"log"
 	"time"
 )
 
@@ -14,18 +15,31 @@ import (
 type App struct {
 	ctx           context.Context
 	api           *api.API
-	storage       *storage.TransactionStorage
+	db            *db.Database
+	paths         *config.Paths
 	cryptoService *services.CryptoService
 }
 
 // NewApp creates a new App application struct
 func NewApp() *App {
+	env := config.GetEnvironment()
+	paths, err := config.GetPaths(env)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	database, err := db.NewDatabase(paths)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	apiKey := config.LoadAPIKey()
-	storage := storage.NewTransactionStorage()
+
 	return &App{
 		api:           api.NewAPI(apiKey),
-		storage:       storage,
-		cryptoService: services.NewCryptoService(storage),
+		db:            database,
+		paths:         paths,
+		cryptoService: services.NewCryptoService(database),
 	}
 }
 
@@ -44,57 +58,30 @@ func (a *App) AddTransaction(crypto string, amount float64, price float64, total
 	if err != nil {
 		return err
 	}
-	transactions, err := a.storage.Load()
-	if err != nil {
-		return err
-	}
-
-	transactions = append(transactions, transaction)
-	return a.storage.Save(transactions)
+	return a.db.SaveTransaction(&transaction)
 }
 
 func (a *App) GetTransactions() ([]models.Transaction, error) {
-	return a.storage.Load()
+	return a.db.GetTransactions()
 }
 
 func (a *App) UpdateTransaction(id string, amount float64, price float64, total float64, date string, note string) error {
-	transactions, err := a.storage.Load()
+	parsedDate, err := time.Parse("2006-01-02T15:04", date)
 	if err != nil {
 		return err
 	}
 
-	for i, tx := range transactions {
-		if tx.ID == id {
-			// Keep original immutable fields
-			transactions[i].Amount = amount
-			transactions[i].Price = price
-			transactions[i].Total = total
-
-			// Parse and update date
-			parsedDate, err := time.Parse("2006-01-02T15:04", date)
-			if err != nil {
-				return err
-			}
-			transactions[i].Date = parsedDate
-
-			transactions[i].Note = note
-			break
-		}
+	tx := models.Transaction{
+		ID:     id,
+		Amount: amount,
+		Price:  price,
+		Total:  total,
+		Date:   parsedDate,
+		Note:   note,
 	}
-	return a.storage.Save(transactions)
+	return a.db.UpdateTransaction(&tx)
 }
 
 func (a *App) DeleteTransaction(id string) error {
-	transactions, err := a.storage.Load()
-	if err != nil {
-		return err
-	}
-
-	filteredTransactions := []models.Transaction{}
-	for _, tx := range transactions {
-		if tx.ID != id {
-			filteredTransactions = append(filteredTransactions, tx)
-		}
-	}
-	return a.storage.Save(filteredTransactions)
+	return a.db.DeleteTransaction(id)
 }

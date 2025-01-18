@@ -1,20 +1,20 @@
 package services
 
 import (
+	"cryptrack/backend/db"
 	"cryptrack/backend/models"
-	"cryptrack/backend/storage"
 	"time"
 
 	"github.com/google/uuid"
 )
 
 type CryptoService struct {
-	storage *storage.TransactionStorage
+	db *db.Database
 }
 
-func NewCryptoService(storage *storage.TransactionStorage) *CryptoService {
+func NewCryptoService(db *db.Database) *CryptoService {
 	return &CryptoService{
-		storage: storage,
+		db: db,
 	}
 }
 
