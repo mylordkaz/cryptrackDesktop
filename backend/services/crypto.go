@@ -37,7 +37,7 @@ func (s *CryptoService) CreateTransaction(crypto string, amount float64, price f
 
 	parsedDate, err := time.Parse("2006-01-02T15:04", date)
 	if err != nil {
-		parsedDate = time.Now()
+		return models.Transaction{}, err
 	}
 
 	return models.Transaction{

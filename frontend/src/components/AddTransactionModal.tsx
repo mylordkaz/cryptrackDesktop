@@ -93,7 +93,7 @@ export function AddTransactionModal({
       return;
     }
 
-    const formattedDate = selectedDate.toISOString();
+    const formattedDate = selectedDate.toISOString().slice(0, 16);
     const submitTotal =
       tab === "sell"
         ? -Math.abs(parseFloat(total))
