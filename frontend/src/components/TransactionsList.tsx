@@ -47,6 +47,14 @@ export function TransactionList({
     setIsEditModalOpen(true);
   };
 
+  const handleUpdate = (updatedTransaction: any) => {
+    const updatedTransactions = transactions.map((tx) =>
+      tx.id === updatedTransaction.id ? updatedTransaction : tx,
+    );
+    setTransactions(updatedTransactions);
+    onTransactionDeleted();
+  };
+
   const handleDelete = async (id: string) => {
     try {
       await DeleteTransaction(id);
@@ -229,9 +237,7 @@ export function TransactionList({
             setSelectedTransaction(null);
           }}
           transaction={selectedTransaction}
-          onTransactionUpdated={() => {
-            onTransactionDeleted(); // This will refresh the list
-          }}
+          onTransactionUpdated={handleUpdate}
         />
       )}
     </>

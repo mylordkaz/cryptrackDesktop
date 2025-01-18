@@ -15,7 +15,7 @@ interface EditTransactionModalProps {
     type: string;
     note: string;
   };
-  onTransactionUpdated: () => void;
+  onTransactionUpdated: (transaction: any) => void;
 }
 
 export function EditTransactionModal({
@@ -55,7 +55,16 @@ export function EditTransactionModal({
         note,
       );
 
-      onTransactionUpdated();
+      const UpdatedTransaction = {
+        ...transaction,
+        amount: parseFloat(amount),
+        price: parseFloat(price),
+        total: submitTotal,
+        date: formattedDate,
+        note: note,
+      };
+
+      onTransactionUpdated(UpdatedTransaction);
       onClose();
     } catch (error) {
       console.error("Failed to update transaction:", error);
