@@ -67,15 +67,17 @@ export function TransactionList({
   };
   return (
     <>
-      <div className="bg-white rounded-lg shadow-md text-black p-6">
-        <div className="flex items-center justify-between mb-4">
+      <div className="bg-surface-card rounded-lg shadow-sm ">
+        <div className="flex items-center justify-between mb-4 p-2">
           <div>
-            <h2 className="text-gray-500 text-sm font-semibold mb-2 text-left">
+            <h2 className="text-text-secondary text-md font-semibold mb-2 text-left">
               {cryptoSymbol} Transactions
             </h2>
-            <div className="bg-gray-50 p-3 rounded-lg flex items-center gap-3">
-              <span className="text-sm mr-2 text-gray-700">Total Value: </span>
-              <span className="text-lg font-semibold">
+            <div className="bg-surface-secondary p-3 rounded-lg flex items-center gap-3">
+              <span className="text-sm mr-2 text-text-secondary">
+                Total Value:{" "}
+              </span>
+              <span className="text-lg font-semibold text-text">
                 ${formatNumber(totalValue)}
               </span>
               <span
@@ -92,41 +94,41 @@ export function TransactionList({
           </div>
           <button
             onClick={onBack}
-            className="px-4 py-2 text-blue-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+            className="px-4 py-2 text-primary hover:text-primary-light hover:bg-surface-secondary rounded-lg transition-colors"
           >
             ← Back
           </button>{" "}
         </div>
         <table className="w-full">
-          <thead className="bg-gray-50">
+          <thead className="bg-surface-secondary border-y border-border">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">
                 Date
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">
                 Type
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">
                 Amount
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">
                 Price
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">
                 Total
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">
                 Notes
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">
                 Actions
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200">
+          <tbody className="divide-y divide-border">
             {transactions.map((tx) => (
               <tr key={tx.id}>
-                <td className="px-6 py-4 whitespace-nowrap">
+                <td className="px-6 py-4 whitespace-nowrap text-text">
                   {new Date(tx.date).toLocaleString("en-US", {
                     year: "numeric",
                     month: "short",
@@ -142,20 +144,20 @@ export function TransactionList({
                     {tx.type}
                   </span>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap">
+                <td className="px-6 py-4 whitespace-nowrap text-text">
                   {formatCrypto(tx.amount, true)}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap">
+                <td className="px-6 py-4 whitespace-nowrap text-text">
                   $ {formatNumber(tx.price)}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap">
+                <td className="px-6 py-4 whitespace-nowrap text-text">
                   $ {formatNumber(tx.total)}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap relative">
                   {tx.note && (
                     <>
                       <button
-                        className="text-blue-500 hover:text-blue-600"
+                        className="text-primary hover:text-primary-light"
                         onClick={(e) => {
                           const rect = e.currentTarget.getBoundingClientRect();
                           setActiveNote(tx.note);
@@ -173,7 +175,7 @@ export function TransactionList({
                 <td className="px-6 py-4 whitespace-nowrap space-x-2">
                   <button
                     onClick={() => handleEdit(tx)}
-                    className="text-gray-600 hover:text-gray-900 inline-block"
+                    className="text-text-light hover:text-primary transition-colors"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -186,7 +188,7 @@ export function TransactionList({
                   </button>
                   <button
                     onClick={() => handleDelete(tx.id)}
-                    className="text-gray-500 hover:text-gray-900"
+                    className="text-text-light hover:text-red-500 transition-colors"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -216,13 +218,13 @@ export function TransactionList({
               }}
             />
             <div
-              className="fixed z-50 bg-white rounded-lg shadow-lg p-4 max-w-xs"
+              className="fixed z-50 bg-surface-card rounded-lg shadow-sm border border-border p-4 max-w-xs"
               style={{
                 top: `${notePosition.top}px`,
                 left: `${notePosition.left}px`,
               }}
             >
-              <div className="text-sm text-gray-700 whitespace-pre-wrap">
+              <div className="text-sm text-primary whitespace-pre-wrap">
                 {activeNote}
               </div>
             </div>
