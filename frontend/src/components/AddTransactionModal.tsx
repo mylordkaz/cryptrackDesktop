@@ -145,166 +145,198 @@ export function AddTransactionModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center">
-      <div className="bg-white p-8 rounded-2xl w-[480px] shadow-xl">
-        {/* Buy/Sell Tabs */}
-        <div className="flex mb-8 bg-gray-100 p-1 rounded-lg">
-          <button
-            className={`flex-1 py-3 rounded-lg font-medium transition-all ${
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center overflow-y-auto">
+      <div className="relative min-h-screen w-full flex items-center justify-center p-4">
+        <div className="bg-white rounded-2xl w-full max-w-md shadow-xl max-h-[90vh] overflow-y-auto">
+          {/* Buy/Sell Tabs */}
+          <div className="flex bg-gray-200">
+            <div
+              className={`flex-1 relative text-center px-8 py-3 cursor-pointer select-none
+            ${
               tab === "buy"
-                ? "bg-blue-500 text-white shadow-md"
-                : "text-gray-500 hover:text-gray-700"
-            }`}
-            onClick={() => setTab("buy")}
-          >
-            Buy
-          </button>
-          <button
-            className={`flex-1 py-3 rounded-lg font-medium transition-all ${
+                ? "bg-white rounded-t-xl"
+                : "bg-gray-200 rounded-t-xl rounded-br-xl"
+            }
+          `}
+              onClick={() => setTab("buy")}
+            >
+              <span
+                className={`font-bold text-lg ${tab === "buy" ? "text-blue-500" : "text-gray-600"}`}
+              >
+                Buy
+              </span>
+              {/* Connect tab to content when active */}
+              {tab === "buy" && (
+                <div className="absolute bottom-0 left-0 right-0 h-1 bg-white" />
+              )}
+            </div>
+            <div
+              className={`flex-1  relative text-center px-8 py-3 cursor-pointer select-none
+            ${
               tab === "sell"
-                ? "bg-red-500 text-white shadow-md"
-                : "text-gray-500 hover:text-gray-700"
-            }`}
-            onClick={() => setTab("sell")}
-          >
-            Sell
-          </button>
-        </div>
-
-        <form className="space-y-6" onSubmit={handleSubmit}>
-          {/* Select Crypto */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700">
-              Select Crypto <span className="text-red-400">*</span>
-            </label>
-            <Select
-              value={cryptoOptions.find(
-                (option) => option.value === selectedCrypto,
+                ? "bg-white rounded-t-xl"
+                : "bg-gray-200 rounded-t-xl rounded-bl-xl"
+            }
+          `}
+              onClick={() => setTab("sell")}
+            >
+              <span
+                className={`font-bold text-lg ${tab === "sell" ? "text-red-500" : "text-gray-600"}`}
+              >
+                Sell
+              </span>
+              {/* Connect tab to content when active */}
+              {tab === "sell" && (
+                <div className="absolute bottom-0 left-0 right-0 h-1 bg-white" />
               )}
-              onChange={(option) => {
-                if (option) {
-                  setSelectedCrypto(option.value);
-                  setError("");
-                } else {
-                  setSelectedCrypto("");
-                }
-              }}
-              options={cryptoOptions}
-              formatOptionLabel={(option: CryptoOption) => (
-                <div className="flex items-center">
-                  <img
-                    src={option.logoUrl}
-                    alt={option.value}
-                    className="w-6 h-6 mr-2"
+            </div>
+          </div>
+
+          <div className="p-6">
+            <form className="space-y-4" onSubmit={handleSubmit}>
+              {/* Select Crypto */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-700">
+                  Select Crypto <span className="text-red-400">*</span>
+                </label>
+                <Select
+                  value={cryptoOptions.find(
+                    (option) => option.value === selectedCrypto,
+                  )}
+                  onChange={(option) => {
+                    if (option) {
+                      setSelectedCrypto(option.value);
+                      setError("");
+                    } else {
+                      setSelectedCrypto("");
+                    }
+                  }}
+                  options={cryptoOptions}
+                  formatOptionLabel={(option: CryptoOption) => (
+                    <div className="flex items-center">
+                      <img
+                        src={option.logoUrl}
+                        alt={option.value}
+                        className="w-6 h-6 mr-2"
+                      />
+                      <span>{option.label}</span>
+                    </div>
+                  )}
+                  className={`text-gray-900 ${!selectedCrypto && "border-red-500"}`}
+                  placeholder="Search cryptocurrency..."
+                  isClearable
+                  isSearchable
+                  classNames={{
+                    control: (state) =>
+                      `!min-h-[40px] bg-gray-50 border ${
+                        !selectedCrypto ? "border-red-500" : "border-gray-200"
+                      } rounded-lg focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500`,
+                    input: () => "text-gray-900",
+                    option: (state) =>
+                      state.isFocused
+                        ? "bg-blue-50 cursor-pointer"
+                        : "bg-white cursor-pointer hover:bg-gray-50",
+                  }}
+                />
+                {error && <p className="text-red-400 text-sm">{error}</p>}
+              </div>
+
+              {/* Amount and Price */}
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700">
+                    Quantity
+                  </label>
+                  <input
+                    type="number"
+                    placeholder="0.00"
+                    className="w-full h-10 px-3 bg-gray-50 border border-gray-200 rounded-lg"
+                    value={quantity}
+                    onChange={(e) => setQuantity(e.target.value)}
                   />
-                  <span>{option.label}</span>
                 </div>
-              )}
-              className={`text-gray-900 ${!selectedCrypto && "border-red-500"}`}
-              placeholder="Search cryptocurrency..."
-              isClearable
-              isSearchable
-              classNames={{
-                control: (state) =>
-                  `p-1 bg-gray-50 border ${
-                    !selectedCrypto ? "border-red-500" : "border-gray-200"
-                  } rounded-lg focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500`,
-                input: () => "text-gray-900",
-                option: (state) =>
-                  state.isFocused
-                    ? "bg-blue-50 cursor-pointer"
-                    : "bg-white cursor-pointer hover:bg-gray-50",
-              }}
-            />
-            {error && <p className="text-red-400 text-sm mt-1">{error}</p>}
-          </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700">
+                    Price per coin
+                  </label>
+                  <input
+                    type="number"
+                    placeholder="0.00"
+                    className="w-full h-10 px-3 bg-gray-50 border border-gray-200 rounded-lg"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                  />
+                </div>
+              </div>
 
-          {/* Amount and Price */}
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">
-                Quantity
-              </label>
-              <input
-                type="number"
-                placeholder="0.00"
-                className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                value={quantity}
-                onChange={(e) => setQuantity(e.target.value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">
-                Price per coin
-              </label>
-              <input
-                type="number"
-                placeholder="0.00"
-                className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-              />
-            </div>
-          </div>
+              {/* Total */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-700">
+                  Total
+                </label>
+                <input
+                  type="number"
+                  placeholder="0.00"
+                  className="w-full h-10 px-3 bg-gray-50 border border-gray-200 rounded-lg"
+                  value={total}
+                  onChange={(e) => setTotal(e.target.value)}
+                />
+              </div>
 
-          {/* Total */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700">Total</label>
-            <input
-              type="number"
-              placeholder="0.00"
-              className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              value={total}
-              onChange={(e) => setTotal(e.target.value)}
-            />
-          </div>
+              {/* Date */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-700">
+                  Date
+                </label>
+                <DatePicker
+                  selected={selectedDate}
+                  onChange={(date: Date | null) => {
+                    if (date) setSelectedDate(date);
+                  }}
+                  showTimeSelect
+                  timeFormat="HH:mm"
+                  timeIntervals={15}
+                  dateFormat="MMM d, yyyy h:mm aa"
+                  className="w-full h-10 px-3 bg-gray-50 border border-gray-200 rounded-lg"
+                  popperClassName="react-datepicker-popper"
+                  calendarClassName="rounded-lg border shadow-lg"
+                />
+              </div>
 
-          {/* Date */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700">Date</label>
-            <DatePicker
-              selected={selectedDate}
-              onChange={(date: Date | null) => {
-                if (date) setSelectedDate(date);
-              }}
-              showTimeSelect
-              timeFormat="HH:mm"
-              timeIntervals={15}
-              dateFormat="MMM d, yyyy h:mm aa"
-              className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              popperClassName="react-datepicker-popper"
-              calendarClassName="rounded-lg border shadow-lg"
-            />
-          </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-700">
+                  Note
+                </label>
+                <textarea
+                  placeholder="Add a note to this transaction..."
+                  className="w-full h-20 px-3 bg-gray-50 border border-gray-200 rounded-lg"
+                  value={note}
+                  onChange={(e) => setNote(e.target.value)}
+                  rows={3}
+                />
+              </div>
 
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700">Note</label>
-            <textarea
-              placeholder="Add a note to this transaction..."
-              className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              value={note}
-              onChange={(e) => setNote(e.target.value)}
-              rows={3}
-            />
+              {/* Action Buttons */}
+              <div className="flex gap-3 pt-2">
+                {" "}
+                {/* reduced spacing */}
+                <button
+                  type="submit"
+                  className="flex-1 py-2 bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-600"
+                >
+                  Add Transaction
+                </button>
+                <button
+                  type="button"
+                  className="flex-1 py-2 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200"
+                  onClick={onClose}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
           </div>
-
-          {/* Action Buttons */}
-          <div className="flex gap-4 pt-4">
-            <button
-              type="submit"
-              className="flex-1 py-3 bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-600 transition-colors"
-            >
-              Add Transaction
-            </button>
-            <button
-              type="button"
-              className="flex-1 py-3 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition-colors"
-              onClick={onClose}
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
+        </div>
       </div>
     </div>
   );
