@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { GetCryptosList, GetTransactions } from "../../wailsjs/go/main/App";
 import { formatCrypto, formatNumber } from "../utils/numberFormat";
 import { AddTransactionModal } from "./AddTransactionModal";
+import { ThemeToggle } from "./ThemeToggle";
 import { TransactionList } from "./TransactionsList";
 
 interface CryptoHolding {
@@ -122,17 +123,22 @@ export function Dashboard() {
 
   return (
     <>
+      <div className="flex justify-end mb-4">
+        <div className="bg-surface dark:bg-dark-surface rounded-lg shadow-md">
+          <ThemeToggle />
+        </div>
+      </div>
       <div className="p-6">
-        <div className="flex justify-between items-center mb-8">
-          <div className="bg-white p-4 rounded-lg shadow-md">
-            <h2 className="text-gray-500 text-sm">Portfolio Value</h2>
-            <p className="text-2xl font-bold text-black">
+        <div className="flex justify-between items-end mb-8">
+          <div className="bg-surface-card p-4 rounded-lg shadow-md border border-border">
+            <h2 className="text-text-secondary text-sm">Portfolio Value</h2>
+            <p className="text-2xl font-bold text-text">
               $ {totalValue.toFixed(2)}
             </p>
           </div>
 
           <button
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+            className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-light active:bg-primary-dark transition-colors"
             onClick={() => {
               setIsModalOpen(true);
             }}
@@ -140,34 +146,34 @@ export function Dashboard() {
             Add Transaction
           </button>
         </div>
-        <div className="bg-white rounded-lg shadow-md text-black p-2">
-          <h2 className="text-gray-500 px-6 mb-4 text-left">Assets</h2>
+        <div className="bg-surface-card rounded-lg shadow-sm border border-border p-2">
+          <h2 className="text-text-secondary px-6 mb-4 text-left">Assets</h2>
           <table className="w-full">
-            <thead className="bg-gray-50">
+            <thead className="bg-surface-secondary">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">
                   Crypto
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">
                   Price
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">
                   Holdings
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">
                   Avg.Buy Price
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">
                   Total Value
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
+            <tbody className="divide-y divide-border">
               {holdings.map((holding) => (
                 <tr
                   key={holding.symbol}
                   onClick={() => handleRowClick(holding.symbol)}
-                  className="cursor-pointer hover:bg-gray-50"
+                  className="cursor-pointer hover:bg-surface-secondary transition-colors"
                 >
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
