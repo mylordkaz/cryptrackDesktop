@@ -51,7 +51,7 @@ func (d *Database) GetTransactions() ([]models.Transaction, error) {
 }
 
 func (d *Database) DeleteTransaction(id string) error {
-	return d.db.Delete(&models.Transaction{}, "id = ?", id).Error
+	return d.db.Unscoped().Delete(&models.Transaction{}, "id = ?", id).Error
 }
 
 func (d *Database) GetTransactionsByCrypto(symbol string) ([]models.Transaction, error) {
