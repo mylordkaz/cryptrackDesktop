@@ -29,15 +29,29 @@ export default {
 
         //Dark mode
         dark: {
-          primary: "#3B82F6", // blue-500
-          "primary-light": "#60A5FA", // blue-400
           surface: {
-            DEFAULT: "#1E1E1E",
-            secondary: "#2D2D2D",
+            DEFAULT: "#1A1B1E", // Main background - matte black
+            secondary: "#2A2B2F", // Secondary surfaces - slightly lighter
+            card: "#212226", // Card background
+          },
+          primary: {
+            DEFAULT: "#0A84FF", // Main blue - iOS style
+            light: "#3396FF", // Lighter blue for hover states
+            dark: "#0066CC", // Darker blue for active states
           },
           text: {
-            DEFAULT: "#F9FAFB", // gray-50
-            secondary: "#9CA3AF", // gray-400
+            DEFAULT: "#FFFFFF", // Primary text
+            secondary: "#A0A0A0", // Secondary text
+            light: "#6B6B6B", // Disabled/subtle text
+          },
+          border: {
+            DEFAULT: "#2F3033", // Default borders
+            light: "#363940", // Lighter borders
+          },
+          // Optional accent colors if needed
+          accent: {
+            success: "#2FBF6A", // Green for positive values
+            error: "#FF453A", // Red for negative values
           },
         },
       },

@@ -130,15 +130,17 @@ export function Dashboard() {
       </div>
       <div className="p-6">
         <div className="flex justify-between items-end mb-8">
-          <div className="bg-surface-card p-4 rounded-lg shadow-md border border-border">
-            <h2 className="text-text-secondary text-sm">Portfolio Value</h2>
-            <p className="text-2xl font-bold text-text">
+          <div className="bg-surface-card dark:bg-dark-surface-card p-4 rounded-lg shadow-md border border-border dark:border-dark-border">
+            <h2 className="text-text-secondary dark:text-dark-text-secondary text-sm">
+              Portfolio Value
+            </h2>
+            <p className="text-2xl font-bold text-text dark:text-dark-text">
               $ {totalValue.toFixed(2)}
             </p>
           </div>
 
           <button
-            className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-light active:bg-primary-dark transition-colors"
+            className="bg-primary dark:bg-dark-primary text-white px-4 py-2 rounded-lg hover:bg-primary-light dark:hover:bg-dark-primary-light active:bg-primary-dark dark:active:bg-dark-primary-dark transition-colors"
             onClick={() => {
               setIsModalOpen(true);
             }}
@@ -146,36 +148,38 @@ export function Dashboard() {
             Add Transaction
           </button>
         </div>
-        <div className="bg-surface-card rounded-lg shadow-sm border border-border p-2">
-          <h2 className="text-text-secondary px-6 mb-4 text-left">Assets</h2>
+        <div className="bg-surface-card dark:bg-dark-surface-card rounded-lg shadow-sm border border-border dark:border-dark-border p-2">
+          <h2 className="text-text-secondary dark:text-dark-text-secondary px-6 mb-4 text-left">
+            Assets
+          </h2>
           <table className="w-full">
-            <thead className="bg-surface-secondary">
+            <thead className="bg-surface-secondary dark:bg-dark-surface-secondary">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary dark:text-dark-text-secondary uppercase tracking-wider">
                   Crypto
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary dark:text-dark-text-secondary uppercase tracking-wider">
                   Price
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary dark:text-dark-text-secondary uppercase tracking-wider">
                   Holdings
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary dark:text-dark-text-secondary uppercase tracking-wider">
                   Avg.Buy Price
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary dark:text-dark-text-secondary uppercase tracking-wider">
                   Total Value
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-border">
+            <tbody className="divide-y divide-border dark:divide-dark-border">
               {holdings.map((holding) => (
                 <tr
                   key={holding.symbol}
                   onClick={() => handleRowClick(holding.symbol)}
-                  className="cursor-pointer hover:bg-surface-secondary transition-colors"
+                  className="cursor-pointer hover:bg-surface-secondary dark:hover:bg-dark-surface-secondary transition-colors"
                 >
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-6 py-4 text-text dark:text-dark-text whitespace-nowrap">
                     <div className="flex items-center">
                       <img
                         src={holding.logoUrl}
@@ -185,16 +189,16 @@ export function Dashboard() {
                       {holding.symbol}
                     </div>
                   </td>{" "}
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-6 py-4 text-text dark:text-dark-text whitespace-nowrap">
                     ${formatNumber(holding.currentPrice)}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-6 py-4 text-text dark:text-dark-text whitespace-nowrap">
                     {formatCrypto(holding.totalAmount)}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-6 py-4 text-text dark:text-dark-text whitespace-nowrap">
                     ${formatNumber(holding.averagePrice)}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-6 py-4 text-text dark:text-dark-text whitespace-nowrap">
                     ${formatNumber(holding.totalValue)}
                   </td>
                 </tr>

@@ -67,24 +67,24 @@ export function TransactionList({
   };
   return (
     <>
-      <div className="bg-surface-card rounded-lg shadow-sm ">
+      <div className="bg-surface-card dark:bg-dark-surface-card rounded-lg shadow-sm ">
         <div className="flex items-center justify-between mb-4 p-2">
           <div>
-            <h2 className="text-text-secondary text-md font-semibold mb-2 text-left">
+            <h2 className="text-text-secondary dark:text-dark-text-secondary text-md font-semibold mb-2 text-left">
               {cryptoSymbol} Transactions
             </h2>
-            <div className="bg-surface-secondary p-3 rounded-lg flex items-center gap-3">
-              <span className="text-sm mr-2 text-text-secondary">
+            <div className="bg-surface-secondary dark:bg-dark-surface-secondary p-3 rounded-lg flex items-center gap-3">
+              <span className="text-sm mr-2 text-text-secondary dark:text-dark-text-secondary">
                 Total Value:{" "}
               </span>
-              <span className="text-lg font-semibold text-text">
+              <span className="text-lg font-semibold text-text dark:text-dark-text">
                 ${formatNumber(totalValue)}
               </span>
               <span
                 className={`text-sm font-medium ${
                   stats.gainLossPercentage >= 0
-                    ? "text-green-600"
-                    : "text-red-600"
+                    ? "text-emerald-500 dark:text-dark-accent-success"
+                    : "text-red-500 dark:text-dark-accent-error"
                 }`}
               >
                 {formatNumber(Math.abs(stats.gainLossPercentage))}%
@@ -94,41 +94,41 @@ export function TransactionList({
           </div>
           <button
             onClick={onBack}
-            className="px-4 py-2 text-primary hover:text-primary-light hover:bg-surface-secondary rounded-lg transition-colors"
+            className="px-4 py-2 text-primary dark:text-dark-primary hover:text-primary-light dark:hover:text-dark-primary-light hover:bg-surface-secondary dark:hover:bg-dark-surface-secondary rounded-lg transition-colors"
           >
             ← Back
           </button>{" "}
         </div>
         <table className="w-full">
-          <thead className="bg-surface-secondary border-y border-border">
+          <thead className="bg-surface-secondary dark:bg-dark-surface-secondary border-y border-border dark:border-dark-border">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary dark:text-dark-text-secondary uppercase tracking-wider">
                 Date
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary dark:text-dark-text-secondary uppercase tracking-wider">
                 Type
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary dark:text-dark-text-secondary uppercase tracking-wider">
                 Amount
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary dark:text-dark-text-secondary uppercase tracking-wider">
                 Price
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary dark:text-dark-text-secondary uppercase tracking-wider">
                 Total
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary dark:text-dark-text-secondary uppercase tracking-wider">
                 Notes
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary dark:text-dark-text-secondary uppercase tracking-wider">
                 Actions
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-border">
+          <tbody className="divide-y divide-border dark:divide-dark-border">
             {transactions.map((tx) => (
               <tr key={tx.id}>
-                <td className="px-6 py-4 whitespace-nowrap text-text">
+                <td className="px-6 py-4 whitespace-nowrap text-text dark:text-dark-text">
                   {new Date(tx.date).toLocaleString("en-US", {
                     year: "numeric",
                     month: "short",
@@ -144,20 +144,20 @@ export function TransactionList({
                     {tx.type}
                   </span>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-text">
+                <td className="px-6 py-4 whitespace-nowrap text-text dark:text-dark-text">
                   {formatCrypto(tx.amount, true)}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-text">
+                <td className="px-6 py-4 whitespace-nowrap text-text dark:text-dark-text">
                   $ {formatNumber(tx.price)}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-text">
+                <td className="px-6 py-4 whitespace-nowrap text-text dark:text-dark-text">
                   $ {formatNumber(tx.total)}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap relative">
                   {tx.note && (
                     <>
                       <button
-                        className="text-primary hover:text-primary-light"
+                        className="text-primary dark:text-dark-primary hover:text-primary-light"
                         onClick={(e) => {
                           const rect = e.currentTarget.getBoundingClientRect();
                           setActiveNote(tx.note);
@@ -175,7 +175,7 @@ export function TransactionList({
                 <td className="px-6 py-4 whitespace-nowrap space-x-2">
                   <button
                     onClick={() => handleEdit(tx)}
-                    className="text-text-light hover:text-primary transition-colors"
+                    className="text-text-light dark:text-dark-text-light hover:text-primary dark:hover:text-dark-primary transition-colors"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -188,7 +188,7 @@ export function TransactionList({
                   </button>
                   <button
                     onClick={() => handleDelete(tx.id)}
-                    className="text-text-light hover:text-red-500 transition-colors"
+                    className="text-text-light dark:text-dark-text-light hover:text-red-500 dark:hover:text-dark-accent-error transition-colors"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -218,13 +218,13 @@ export function TransactionList({
               }}
             />
             <div
-              className="fixed z-50 bg-surface-card rounded-lg shadow-sm border border-border p-4 max-w-xs"
+              className="fixed z-50 bg-surface-card dark:bg-dark-surface-card rounded-lg shadow-sm border border-border dark:border-dark-border p-4 max-w-xs"
               style={{
                 top: `${notePosition.top}px`,
                 left: `${notePosition.left}px`,
               }}
             >
-              <div className="text-sm text-primary whitespace-pre-wrap">
+              <div className="text-sm text-primary dark:text-dark-primary whitespace-pre-wrap">
                 {activeNote}
               </div>
             </div>

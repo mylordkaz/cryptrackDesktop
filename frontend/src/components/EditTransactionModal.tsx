@@ -74,14 +74,16 @@ export function EditTransactionModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-text/20 backdrop-blur-sm flex items-center justify-center">
-      <div className="bg-surface-card p-8 rounded-2xl w-[480px] shadow-xl border border-border">
-        <h2 className="text-xl font-semibold mb-6 text-text">
+    <div className="fixed inset-0 bg-text/20 dark:bg-dark-text/20 backdrop-blur-sm flex items-center justify-center">
+      <div className="bg-surface-card dark:bg-dark-surface-card p-8 rounded-2xl w-[480px] shadow-xl border border-border dark:border-dark-border">
+        <h2 className="text-xl font-semibold mb-6 text-text dark:text-dark-text">
           Edit Transaction
         </h2>
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-2">
-            <label className="text-sm font-medium text-text">Quantity</label>
+            <label className="text-sm font-medium text-text dark:text-dark-text">
+              Quantity
+            </label>
             <input
               type="number"
               value={amount}
@@ -91,12 +93,14 @@ export function EditTransactionModal({
                   (parseFloat(e.target.value) * parseFloat(price)).toString(),
                 );
               }}
-              className="w-full p-3 bg-gray-50 border border-border rounded-lg text-text focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+              className="w-full p-3 bg-gray-50 dark:bg-dark-surface-secondary border border-border dark:border-dark-border rounded-lg text-text dark:text-dark-text  focus:ring-2 focus:ring-primary dark:focus:ring-dark-primary focus:border-primary dark:focus:border-dark-primary transition-colors"
             />
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium text-text">Price</label>
+            <label className="text-sm font-medium text-text dark:text-dark-text">
+              Price
+            </label>
             <input
               type="text"
               value={`$ ${price}`}
@@ -107,12 +111,14 @@ export function EditTransactionModal({
                   setTotal((parseFloat(amount) * parseFloat(value)).toString());
                 }
               }}
-              className="w-full p-3 bg-gray-50 border border-border rounded-lg text-text focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+              className="w-full p-3 bg-gray-50 dark:bg-dark-surface-secondary border border-border dark:border-dark-border rounded-lg text-text dark:text-dark-text  focus:ring-2 focus:ring-primary dark:focus:ring-dark-primary focus:border-primary dark:focus:border-dark-primary transition-colors"
             />
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium text-text">Total</label>
+            <label className="text-sm font-medium text-text dark:text-dark-text">
+              Total
+            </label>
             <input
               type="text"
               value={`$ ${displayTotal}`}
@@ -120,12 +126,14 @@ export function EditTransactionModal({
                 const value = e.target.value.replace("$", "").trim();
                 setTotal(value);
               }}
-              className="w-full p-3 bg-gray-50 border border-border rounded-lg text-text focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+              className="w-full p-3 bg-gray-50 dark:bg-dark-surface-secondary border border-border dark:border-dark-border rounded-lg text-text dark:text-dark-text  focus:ring-2 focus:ring-primary dark:focus:ring-dark-primary focus:border-primary dark:focus:border-dark-primary transition-colors"
             />
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium text-text">Date</label>
+            <label className="text-sm font-medium text-text dark:text-dark-text">
+              Date
+            </label>
             <DatePicker
               selected={selectedDate}
               onChange={(date: Date | null) => {
@@ -137,15 +145,17 @@ export function EditTransactionModal({
               timeFormat="HH:mm"
               timeIntervals={15}
               dateFormat="MMM d, yyyy h:mm aa"
-              className="w-full p-3 bg-gray-50 border border-border rounded-lg text-text focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+              className="w-full p-3 bg-gray-50 dark:bg-dark-surface-secondary border border-border dark:border-dark-border rounded-lg text-text dark:text-dark-text  focus:ring-2 focus:ring-primary dark:focus:ring-dark-primary focus:border-primary dark:focus:border-dark-primary transition-colors"
             />
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium text-text">Note</label>
+            <label className="text-sm font-medium text-text dark:text-dark-text">
+              Note
+            </label>
             <textarea
               placeholder="Add a note to this transaction..."
-              className="w-full p-3 bg-gray-50 border border-border rounded-lg text-text focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+              className="w-full p-3 bg-gray-50 dark:bg-dark-surface-secondary border border-border dark:border-dark-border rounded-lg text-text dark:text-dark-text  focus:ring-2 focus:ring-primary dark:focus:ring-dark-primary focus:border-primary dark:focus:border-dark-primary transition-colors"
               value={note}
               onChange={(e) => setNote(e.target.value)}
               rows={3}
@@ -155,14 +165,14 @@ export function EditTransactionModal({
           <div className="flex gap-4 pt-4">
             <button
               type="submit"
-              className="flex-1 py-3 bg-primary text-white font-medium rounded-lg hover:bg-primary-light active:bg-primary-dark transition-colors"
+              className="flex-1 py-3 bg-primary dark:bg-dark-primary text-white font-medium rounded-lg hover:bg-primary-light dark:hover:bg-dark-primary-light active:bg-primary-dark dark:active:bg-dark-primary-dark transition-colors"
             >
               Update Transaction
             </button>
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 py-3 bg-gray-100 text-text font-medium rounded-lg hover:bg-surface border border-border transition-colors"
+              className="flex-1 py-3 bg-gray-100 dark:bg-dark-surface-secondary text-text dark:text-dark-text font-medium rounded-lg hover:bg-surface dark:hover:bg-dark-surface border border-border dark:border-dark-border transition-colors"
             >
               Cancel
             </button>
