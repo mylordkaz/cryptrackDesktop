@@ -50,8 +50,8 @@ export default {
           },
           // Optional accent colors if needed
           accent: {
-            success: "#2FBF6A", // Green for positive values
-            error: "#FF453A", // Red for negative values
+            success: "#39FF14", // Green for positive values
+            error: "#FF073A", // Red for negative values
           },
         },
       },

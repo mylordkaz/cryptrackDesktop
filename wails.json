@@ -1,7 +1,10 @@
 {
   "$schema": "https://wails.io/schemas/config.v2.json",
-  "name": "cryptrack",
-  "outputfilename": "cryptrack",
+  "name": "Cryptrack",
+  "build": {
+    "icon": "assets/icon_512x512.png"
+  },
+  "outputfilename": "Cryptrack",
   "frontend:install": "npm install",
   "frontend:build": "npm run build",
   "frontend:dev:watcher": "npm run dev",
