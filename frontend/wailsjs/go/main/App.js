@@ -18,6 +18,14 @@ export function GetTransactions() {
   return window['go']['main']['App']['GetTransactions']();
 }
 
+export function LoadTheme() {
+  return window['go']['main']['App']['LoadTheme']();
+}
+
+export function SaveTheme(arg1) {
+  return window['go']['main']['App']['SaveTheme'](arg1);
+}
+
 export function UpdateTransaction(arg1, arg2, arg3, arg4, arg5, arg6) {
   return window['go']['main']['App']['UpdateTransaction'](arg1, arg2, arg3, arg4, arg5, arg6);
 }
