@@ -8,6 +8,8 @@ import (
 	"cryptrack/backend/models"
 	"cryptrack/backend/services"
 	"log"
+	"os"
+	"path/filepath"
 	"time"
 )
 
@@ -47,6 +49,22 @@ func NewApp() *App {
 // so we can call the runtime methods
 func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
+}
+
+func (a *App) SaveTheme(theme string) error {
+	data := []byte(theme)
+	return os.WriteFile(filepath.Join(a.paths.DataDir, "theme.txt"), data, 0644)
+}
+
+func (a *App) LoadTheme() (string, error) {
+	data, err := os.ReadFile(filepath.Join(a.paths.DataDir, "theme.txt"))
+	if err != nil {
+		if os.IsNotExist(err) {
+			return "", nil
+		}
+		return "", err
+	}
+	return string(data), nil
 }
 
 func (a *App) GetCryptosList() ([]models.Crypto, error) {
