@@ -1,8 +1,8 @@
 {
   "$schema": "https://wails.io/schemas/config.v2.json",
   "name": "Cryptrack",
-  "build": {
-    "icon": "assets/icon_512x512.png"
+  "info": {
+    "icon": "build/darwin/appicon.icns"
   },
   "outputfilename": "Cryptrack",
   "frontend:install": "npm install",

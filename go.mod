@@ -6,7 +6,6 @@ toolchain go1.23.4
 
 require (
 	github.com/google/uuid v1.3.0
-	github.com/joho/godotenv v1.5.1
 	github.com/wailsapp/wails/v2 v2.9.2
 	gorm.io/driver/sqlite v1.5.7
 	gorm.io/gorm v1.25.12

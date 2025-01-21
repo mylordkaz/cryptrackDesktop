@@ -1,7 +1,7 @@
 build/bin
-build
 node_modules
 frontend/dist
 data/*
 .env
 .DS_Store
+secrets.go
