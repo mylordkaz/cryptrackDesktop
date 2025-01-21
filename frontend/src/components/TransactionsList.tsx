@@ -139,7 +139,7 @@ export function TransactionList({
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span
-                    className={`capitalize ${tx.type === "buy" ? "text-green-600" : "text-red-600"}`}
+                    className={`capitalize ${tx.type === "buy" ? "text-emerald-500 dark:text-dark-accent-success" : "text-red-500 dark:text-dark-accent-error"}`}
                   >
                     {tx.type}
                   </span>
