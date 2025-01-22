@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { GetCryptosList, GetTransactions } from "../../wailsjs/go/main/App";
+import {
+  GetCryptosList,
+  GetTransactions,
+  Logout,
+} from "../../wailsjs/go/main/App";
+import { useAuth } from "../context/AuthContext";
 import { formatCrypto, formatNumber } from "../utils/numberFormat";
 import { AddTransactionModal } from "./AddTransactionModal";
 import { ThemeToggle } from "./ThemeToggle";
@@ -21,6 +26,16 @@ export function Dashboard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCrypto, setSelectedCrypto] = useState<string | null>(null);
   const [transactions, setTransactions] = useState<any[]>([]);
+  const { setIsAuthenticated } = useAuth();
+
+  const handleLogout = async () => {
+    try {
+      await Logout();
+      setIsAuthenticated(false);
+    } catch (error) {
+      console.error("Failed to logout:", error);
+    }
+  };
 
   // load & calculate holdings
   const loadHoldings = async () => {
@@ -205,6 +220,14 @@ export function Dashboard() {
               ))}
             </tbody>
           </table>
+        </div>
+        <div className="fixed bottom-6 right-6">
+          <button
+            onClick={() => setIsAuthenticated(false)}
+            className="px-4 py-2 bg-surface-card dark:bg-dark-surface-card text-text-light dark:text-dark-text-light hover:text-primary dark:hover:text-dark-primary rounded-lg shadow-md border border-border dark:border-dark-border transition-colors"
+          >
+            Logout
+          </button>
         </div>
       </div>
 

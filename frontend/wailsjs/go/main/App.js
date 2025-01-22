@@ -10,6 +10,10 @@ export function DeleteTransaction(arg1) {
   return window['go']['main']['App']['DeleteTransaction'](arg1);
 }
 
+export function EnableToucID() {
+  return window['go']['main']['App']['EnableToucID']();
+}
+
 export function GetCryptosList() {
   return window['go']['main']['App']['GetCryptosList']();
 }
@@ -18,8 +22,28 @@ export function GetTransactions() {
   return window['go']['main']['App']['GetTransactions']();
 }
 
+export function IsLoggedIn() {
+  return window['go']['main']['App']['IsLoggedIn']();
+}
+
 export function LoadTheme() {
   return window['go']['main']['App']['LoadTheme']();
+}
+
+export function Login(arg1, arg2) {
+  return window['go']['main']['App']['Login'](arg1, arg2);
+}
+
+export function LoginWithTouchID() {
+  return window['go']['main']['App']['LoginWithTouchID']();
+}
+
+export function Logout() {
+  return window['go']['main']['App']['Logout']();
+}
+
+export function Register(arg1, arg2) {
+  return window['go']['main']['App']['Register'](arg1, arg2);
 }
 
 export function SaveTheme(arg1) {

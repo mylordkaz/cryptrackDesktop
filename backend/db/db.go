@@ -23,7 +23,7 @@ func NewDatabase(paths *config.Paths) (*Database, error) {
 	}
 
 	// Auto migrate schema
-	err = db.AutoMigrate(&models.Transaction{})
+	err = db.AutoMigrate(&models.Transaction{}, &models.User{})
 	if err != nil {
 		return nil, err
 	}
@@ -40,6 +40,9 @@ func NewDatabase(paths *config.Paths) (*Database, error) {
 
 	return database, nil
 }
+
+// Transactions
+
 func (d *Database) SaveTransaction(tx *models.Transaction) error {
 	return d.db.Save(tx).Error
 }
@@ -68,4 +71,20 @@ func (d *Database) UpdateTransaction(tx *models.Transaction) error {
 		"date":   tx.Date,
 		"note":   tx.Note,
 	}).Error
+}
+
+// Users
+
+func (d *Database) CreateUser(user *models.User) error {
+	return d.db.Create(user).Error
+}
+
+func (d *Database) GetUserByUsername(username string) (*models.User, error) {
+	var user models.User
+	err := d.db.Where("username = ?", username).First(&user).Error
+	return &user, err
+}
+
+func (d *Database) UpdateUserTouchID(userID string, enabled bool) error {
+	return d.db.Model(&models.User{}).Where("id = ?", userID).Update("touch_id_enabled", enabled).Error
 }

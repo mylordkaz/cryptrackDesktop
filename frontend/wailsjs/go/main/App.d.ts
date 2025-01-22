@@ -6,11 +6,23 @@ export function AddTransaction(arg1:string,arg2:number,arg3:number,arg4:number,a
 
 export function DeleteTransaction(arg1:string):Promise<void>;
 
+export function EnableToucID():Promise<void>;
+
 export function GetCryptosList():Promise<Array<models.Crypto>>;
 
 export function GetTransactions():Promise<Array<models.Transaction>>;
 
+export function IsLoggedIn():Promise<boolean>;
+
 export function LoadTheme():Promise<string>;
+
+export function Login(arg1:string,arg2:string):Promise<void>;
+
+export function LoginWithTouchID():Promise<void>;
+
+export function Logout():Promise<void>;
+
+export function Register(arg1:string,arg2:string):Promise<void>;
 
 export function SaveTheme(arg1:string):Promise<void>;
 
