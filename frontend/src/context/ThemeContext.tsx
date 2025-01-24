@@ -15,7 +15,9 @@ const ThemeContext = createContext<ThemeContextType>({
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>(() => {
-    return "light";
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
   });
   useEffect(() => {
     const loadSavedTheme = async () => {
@@ -23,11 +25,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         const savedTheme = await LoadTheme();
         if (savedTheme) {
           setTheme(savedTheme as Theme);
-        } else {
-          const isDark = window.matchMedia(
-            "(prefers-color-scheme: dark)",
-          ).matches;
-          setTheme(isDark ? "dark" : "light");
         }
       } catch (error) {
         console.error("Failed to load theme:", error);

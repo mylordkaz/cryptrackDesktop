@@ -226,19 +226,25 @@ export function AddTransactionModal({
                   isSearchable
                   classNames={{
                     control: (state) =>
-                      `!min-h-[48px] !bg-dark-surface-secondary !border-0 ${
-                        state.isFocused ? "ring-1 !ring-dark-primary" : ""
+                      `!min-h-[48px] !bg-surface-card dark:!bg-dark-surface-secondary !border-0 ${
+                        state.isFocused
+                          ? "ring-1 !ring-primary dark:!ring-dark-primary"
+                          : ""
                       } rounded-lg`,
-                    input: () => "!text-dark-text",
-                    placeholder: () => "!text-dark-text-light",
+                    input: () => "!text-text dark:!text-dark-text",
+                    placeholder: () =>
+                      "!text-text-light dark:!text-dark-text-light",
                     option: (state) =>
                       state.isFocused
-                        ? "!bg-dark-surface-secondary cursor-pointer"
-                        : "!bg-dark-surface-card cursor-pointer hover:!bg-dark-surface-secondary",
-                    menu: () => "!bg-dark-surface-card !border-0 !shadow-lg",
+                        ? "!bg-surface-secondary dark:!bg-dark-surface-secondary cursor-pointer"
+                        : "!bg-surface-card dark:!bg-dark-surface-card cursor-pointer hover:!bg-surface-secondary dark:hover:!bg-dark-surface-secondary",
+                    menu: () =>
+                      "!bg-surface-card dark:!bg-dark-surface-card !border-0 !shadow-lg",
                     menuList: () => "!border-0",
-                    dropdownIndicator: () => "!text-dark-text-light",
-                    clearIndicator: () => "!text-dark-text-light",
+                    dropdownIndicator: () =>
+                      "!text-text-light dark:!text-dark-text-light",
+                    clearIndicator: () =>
+                      "!text-text-light dark:!text-dark-text-light",
                   }}
                   styles={{
                     control: (base) => ({
@@ -263,15 +269,15 @@ export function AddTransactionModal({
                     ...theme,
                     colors: {
                       ...theme.colors,
-                      neutral0: "var(--dark-surface-card)",
-                      neutral80: "var(--dark-text)",
-                      primary: "var(--dark-primary)",
-                      primary25: "var(--dark-surface-secondary)",
+                      neutral0: "var(--surface-card)",
+                      neutral80: "var(--text)",
+                      primary: "var(--primary)",
+                      primary25: "var(--surface-secondary)",
                       neutral20: "transparent",
                       neutral30: "transparent",
                     },
                   })}
-                />{" "}
+                />
                 {error && <p className="text-red-400 text-sm">{error}</p>}
               </div>
 
