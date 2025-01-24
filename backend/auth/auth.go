@@ -45,11 +45,3 @@ func (s *AuthService) Login(username, password string) (*models.User, error) {
 
 	return user, nil
 }
-
-func (s *AuthService) EnableTouchID(userID string) error {
-	return s.db.UpdateUserTouchID(userID, true)
-}
-
-func (s *AuthService) DisableTouchID(userID string) error {
-	return s.db.UpdateUserTouchID(userID, false)
-}

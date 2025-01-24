@@ -36,7 +36,7 @@ func main() {
 		},
 		Mac: &mac.Options{
 			TitleBar: &mac.TitleBar{
-				TitlebarAppearsTransparent: true,
+				TitlebarAppearsTransparent: false,
 			},
 			About: &mac.AboutInfo{
 				Title:   "Cryptrack",

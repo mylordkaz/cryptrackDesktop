@@ -9,9 +9,11 @@ import (
 	"cryptrack/backend/models"
 	"cryptrack/backend/services"
 	"errors"
+	"fmt"
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/keybase/go-keychain"
@@ -121,6 +123,11 @@ func (a *App) Register(username, password string) error {
 	if err != nil {
 		return err
 	}
+
+	a.currentUser = user
+	return nil
+}
+
 	a.currentUser = user
 	return nil
 }
@@ -134,88 +141,6 @@ func (a *App) Login(username, password string) error {
 	return nil
 }
 
-func (a *App) LoginWithTouchID() error {
-	// Configure keychain query
-	query := keychain.NewItem()
-	query.SetSecClass(keychain.SecClassGenericPassword)
-	query.SetService("cryptrack")
-	query.SetAccount("username")
-	query.SetAccessible(keychain.AccessibleWhenUnlocked)
 
-	data, err := keychain.QueryItem(query)
-	if err != nil {
-		return err
-	}
 
-	if len(data) == 0 {
-		return errors.New("no stored credentials found")
-	}
 
-	username := string(data[0].Data)
-	user, err := a.db.GetUserByUsername(string(username))
-	if err != nil {
-		return err
-	}
-
-	if !user.TouchIDEnabled {
-		return errors.New("touch ID not enabled for this user")
-	}
-
-	result, err := runtime.MessageDialog(a.ctx, runtime.MessageDialogOptions{
-		Type:          runtime.QuestionDialog,
-		Title:         "Touch ID Authentication",
-		Message:       "Please verify your identity using Touch ID",
-		Buttons:       []string{"Cancel"},
-		DefaultButton: "Cancel",
-		CancelButton:  "Cancel",
-	})
-
-	if result == "Cancel" {
-		return errors.New("authentication cancelled")
-	}
-
-	a.currentUser = user
-	return nil
-}
-
-func (a *App) EnableToucID() error {
-	if a.currentUser == nil {
-		return errors.New("no user logged in")
-	}
-
-	// Create keychain item
-	item := keychain.NewItem()
-	item.SetSecClass(keychain.SecClassGenericPassword)
-	item.SetService("cryptrack")
-	item.SetAccount("username")
-	item.SetData([]byte(a.currentUser.Username))
-	item.SetAccessible(keychain.AccessibleWhenUnlocked)
-	item.SetSynchronizable(keychain.SynchronizableNo)
-
-	err := keychain.AddItem(item)
-	if err == keychain.ErrorDuplicateItem {
-		// If item exists, delete it and try again
-		query := keychain.NewItem()
-		query.SetSecClass(keychain.SecClassGenericPassword)
-		query.SetService("cryptrack")
-		query.SetAccount("username")
-		if err := keychain.DeleteItem(query); err != nil {
-			return err
-		}
-		err = keychain.AddItem(item)
-	}
-	if err != nil {
-		return err
-	}
-
-	return a.authService.EnableTouchID(a.currentUser.ID)
-
-}
-
-func (a *App) IsLoggedIn() bool {
-	return a.currentUser != nil
-}
-
-func (a *App) Logout() {
-	a.currentUser = nil
-}

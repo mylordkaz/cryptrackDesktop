@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { Login, LoginWithTouchID, Register } from "../../wailsjs/go/main/App";
 import { useAuth } from "../context/AuthContext";
+import { useTheme } from "../context/ThemeContext";
+import logoLight from "../assets/images/logo-light.png";
+import logoDark from "../assets/images/logo-dark.png";
 
 export function LoginForm() {
   const [isRegister, setIsRegister] = useState(false);
@@ -8,6 +11,7 @@ export function LoginForm() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const { setIsAuthenticated } = useAuth();
+  const { theme } = useTheme();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,19 +29,21 @@ export function LoginForm() {
     }
   };
 
-  const handleTouchID = async () => {
-    try {
-      await LoginWithTouchID();
-      setIsAuthenticated(true);
-    } catch (err: any) {
-      setError(err.message || "Touch ID authentication failed");
-    }
-  };
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-surface dark:bg-dark-surface py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
-        <div>
+        <div className="flex flex-col items-center">
+          <img
+            src={theme === "dark" ? logoDark : logoLight}
+            alt="Cryptrack Logo"
+            className="w-48 h-48 mb-4"
+          />
+          <h1 className="text-4xl font-bold text-text dark:text-dark-text mb-2">
+            Cryptrack
+          </h1>
+          <h3 className="text-xl text-text-secondary dark:text-dark-text-secondary">
+            Crypto Portfolio Tracker
+          </h3>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-text dark:text-dark-text">
             {isRegister ? "Create an account" : "Sign in to your account"}
           </h2>
@@ -78,16 +84,6 @@ export function LoginForm() {
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-primary dark:bg-dark-primary hover:bg-primary-light dark:hover:bg-dark-primary-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-dark-primary"
             >
               {isRegister ? "Register" : "Sign in"}
-            </button>
-          </div>
-
-          <div>
-            <button
-              type="button"
-              onClick={handleTouchID}
-              className="w-full flex justify-center py-2 px-4 border border-border dark:border-dark-border rounded-lg shadow-sm text-sm font-medium text-text dark:text-dark-text bg-surface-card dark:bg-dark-surface-card hover:bg-surface-secondary dark:hover:bg-dark-surface-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-dark-primary"
-            >
-              Sign in with Touch ID
             </button>
           </div>
         </form>

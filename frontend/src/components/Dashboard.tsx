@@ -7,7 +7,6 @@ import {
 import { useAuth } from "../context/AuthContext";
 import { formatCrypto, formatNumber } from "../utils/numberFormat";
 import { AddTransactionModal } from "./AddTransactionModal";
-import { ThemeToggle } from "./ThemeToggle";
 import { TransactionList } from "./TransactionsList";
 
 interface CryptoHolding {
@@ -123,7 +122,7 @@ export function Dashboard() {
   if (selectedCrypto) {
     const currentHolding = holdings.find((h) => h.symbol === selectedCrypto);
     return (
-      <div className="p-6">
+      <div className="p-6 pt-20">
         <TransactionList
           cryptoSymbol={selectedCrypto}
           transactions={transactions}
@@ -138,12 +137,7 @@ export function Dashboard() {
 
   return (
     <>
-      <div className="flex justify-end mb-4">
-        <div className="bg-surface dark:bg-dark-surface rounded-lg shadow-md">
-          <ThemeToggle />
-        </div>
-      </div>
-      <div className="p-6">
+      <div className="p-6 pt-10">
         <div className="flex justify-between items-end mb-8">
           <div className="bg-surface-card dark:bg-dark-surface-card p-4 rounded-lg shadow-md border border-border dark:border-dark-border">
             <h2 className="text-text-secondary dark:text-dark-text-secondary text-sm">

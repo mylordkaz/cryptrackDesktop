@@ -10,8 +10,8 @@ export function DeleteTransaction(arg1) {
   return window['go']['main']['App']['DeleteTransaction'](arg1);
 }
 
-export function EnableToucID() {
-  return window['go']['main']['App']['EnableToucID']();
+export function GetCredentials() {
+  return window['go']['main']['App']['GetCredentials']();
 }
 
 export function GetCryptosList() {
@@ -44,6 +44,10 @@ export function Logout() {
 
 export function Register(arg1, arg2) {
   return window['go']['main']['App']['Register'](arg1, arg2);
+}
+
+export function SaveCredentials(arg1, arg2) {
+  return window['go']['main']['App']['SaveCredentials'](arg1, arg2);
 }
 
 export function SaveTheme(arg1) {

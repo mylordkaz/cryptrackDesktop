@@ -6,7 +6,7 @@ export function AddTransaction(arg1:string,arg2:number,arg3:number,arg4:number,a
 
 export function DeleteTransaction(arg1:string):Promise<void>;
 
-export function EnableToucID():Promise<void>;
+export function GetCredentials():Promise<string>;
 
 export function GetCryptosList():Promise<Array<models.Crypto>>;
 
@@ -23,6 +23,8 @@ export function LoginWithTouchID():Promise<void>;
 export function Logout():Promise<void>;
 
 export function Register(arg1:string,arg2:string):Promise<void>;
+
+export function SaveCredentials(arg1:string,arg2:string):Promise<void>;
 
 export function SaveTheme(arg1:string):Promise<void>;
 

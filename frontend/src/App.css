@@ -58,3 +58,11 @@ input[type="number"]::-webkit-inner-spin-button {
   li.react-datepicker__time-list-item--selected {
   background-color: #3b82f6 !important;
 }
+
+img {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+}
