@@ -10,10 +10,6 @@ export function DeleteTransaction(arg1) {
   return window['go']['main']['App']['DeleteTransaction'](arg1);
 }
 
-export function GetCredentials() {
-  return window['go']['main']['App']['GetCredentials']();
-}
-
 export function GetCryptosList() {
   return window['go']['main']['App']['GetCryptosList']();
 }
@@ -34,20 +30,12 @@ export function Login(arg1, arg2) {
   return window['go']['main']['App']['Login'](arg1, arg2);
 }
 
-export function LoginWithTouchID() {
-  return window['go']['main']['App']['LoginWithTouchID']();
-}
-
 export function Logout() {
   return window['go']['main']['App']['Logout']();
 }
 
 export function Register(arg1, arg2) {
   return window['go']['main']['App']['Register'](arg1, arg2);
-}
-
-export function SaveCredentials(arg1, arg2) {
-  return window['go']['main']['App']['SaveCredentials'](arg1, arg2);
 }
 
 export function SaveTheme(arg1) {

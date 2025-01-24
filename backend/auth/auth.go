@@ -17,6 +17,10 @@ func NewAuthService(db *db.Database) *AuthService {
 }
 
 func (s *AuthService) Register(username, password string) (*models.User, error) {
+	// if len(password) < 8 {
+	// 	return nil, errors.New("password must be at least 8 characters")
+	// }
+
 	user := &models.User{
 		ID:       uuid.New().String(),
 		Username: username,

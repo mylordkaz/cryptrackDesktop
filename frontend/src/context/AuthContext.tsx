@@ -30,7 +30,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-surface dark:bg-dark-surface">
+        <div className="text-text dark:text-dark-text">Loading...</div>
+      </div>
+    );
   }
 
   return (

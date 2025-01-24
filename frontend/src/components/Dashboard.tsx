@@ -217,7 +217,7 @@ export function Dashboard() {
         </div>
         <div className="fixed bottom-6 right-6">
           <button
-            onClick={() => setIsAuthenticated(false)}
+            onClick={handleLogout}
             className="px-4 py-2 bg-surface-card dark:bg-dark-surface-card text-text-light dark:text-dark-text-light hover:text-primary dark:hover:text-dark-primary rounded-lg shadow-md border border-border dark:border-dark-border transition-colors"
           >
             Logout

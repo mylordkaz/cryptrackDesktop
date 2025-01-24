@@ -8,16 +8,11 @@ import (
 	"cryptrack/backend/db"
 	"cryptrack/backend/models"
 	"cryptrack/backend/services"
-	"errors"
 	"fmt"
 	"log"
 	"os"
 	"path/filepath"
-	"strings"
 	"time"
-
-	"github.com/keybase/go-keychain"
-	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
 // App struct
@@ -59,6 +54,10 @@ func NewApp() *App {
 // so we can call the runtime methods
 func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
+
+	if user, err := auth.LoadFromKeychain(); err == nil {
+		a.currentUser = user
+	}
 }
 
 // Theme
@@ -128,19 +127,38 @@ func (a *App) Register(username, password string) error {
 	return nil
 }
 
-	a.currentUser = user
-	return nil
-}
-
 func (a *App) Login(username, password string) error {
 	user, err := a.authService.Login(username, password)
 	if err != nil {
 		return err
 	}
+
+	if err := auth.SaveToKeychain(user); err != nil {
+		return fmt.Errorf("failed to save to keychain: %w", err)
+	}
+
 	a.currentUser = user
 	return nil
 }
 
+func (a *App) Logout() error {
+	err := auth.DeleteFromKeychain()
+	log.Printf("Delete keychain result: %v", err)
+	if err != nil {
+		return err
+	}
 
+	a.currentUser = nil
+	return nil
+}
 
-
+func (a *App) IsLoggedIn() bool {
+	if a.currentUser == nil {
+		user, err := auth.LoadFromKeychain()
+		if err != nil {
+			return false
+		}
+		a.currentUser = user
+	}
+	return a.currentUser != nil
+}

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Login, LoginWithTouchID, Register } from "../../wailsjs/go/main/App";
+import { Login, Register } from "../../wailsjs/go/main/App";
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
 import logoLight from "../assets/images/logo-light.png";

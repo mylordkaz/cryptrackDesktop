@@ -6,6 +6,7 @@ toolchain go1.23.4
 
 require (
 	github.com/google/uuid v1.3.0
+	github.com/keybase/go-keychain v0.0.0-20250124001843-7f41edfa9689
 	github.com/wailsapp/wails/v2 v2.9.2
 	gorm.io/driver/sqlite v1.5.7
 	gorm.io/gorm v1.25.12
@@ -18,7 +19,6 @@ require (
 	github.com/jchv/go-winloader v0.0.0-20210711035445-715c2860da7e // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
-	github.com/keybase/go-keychain v0.0.0-20250107162724-3747e5bfbb71
 	github.com/labstack/echo/v4 v4.10.2 // indirect
 	github.com/labstack/gommon v0.4.0 // indirect
 	github.com/leaanthony/go-ansi-parser v1.6.0 // indirect
