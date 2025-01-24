@@ -84,7 +84,7 @@ func (a *App) GetCryptosList() ([]models.Crypto, error) {
 
 // Transactions
 func (a *App) AddTransaction(crypto string, amount float64, price float64, total float64, date string, transactionType string, note string) error {
-	transaction, err := a.cryptoService.CreateTransaction(crypto, amount, price, total, date, transactionType, note)
+	transaction, err := a.cryptoService.CreateTransaction(a.currentUser.ID, crypto, amount, price, total, date, transactionType, note)
 	if err != nil {
 		return err
 	}
@@ -92,7 +92,7 @@ func (a *App) AddTransaction(crypto string, amount float64, price float64, total
 }
 
 func (a *App) GetTransactions() ([]models.Transaction, error) {
-	return a.db.GetTransactions()
+	return a.db.GetTransactions(a.currentUser.ID)
 }
 
 func (a *App) UpdateTransaction(id string, amount float64, price float64, total float64, date string, note string) error {

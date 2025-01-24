@@ -15,6 +15,7 @@ type Crypto struct {
 
 type Transaction struct {
 	ID           string         `json:"id" gorm:"primaryKey"`
+	UserID       string         `json:"userId" gorm:"index"`
 	CryptoSymbol string         `json:"CryptoSymbol" gorm:"index"`
 	Amount       float64        `json:"amount"`
 	Price        float64        `json:"price"`

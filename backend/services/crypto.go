@@ -18,7 +18,7 @@ func NewCryptoService(db *db.Database) *CryptoService {
 	}
 }
 
-func (s *CryptoService) CreateTransaction(crypto string, amount float64, price float64, total float64, date string, transactionType string, note string) (models.Transaction, error) {
+func (s *CryptoService) CreateTransaction(userID string, crypto string, amount float64, price float64, total float64, date string, transactionType string, note string) (models.Transaction, error) {
 
 	if transactionType == "sell" {
 		amount = -amount
@@ -42,6 +42,7 @@ func (s *CryptoService) CreateTransaction(crypto string, amount float64, price f
 
 	return models.Transaction{
 		ID:           uuid.New().String(),
+		UserID:       userID,
 		CryptoSymbol: crypto,
 		Amount:       amount,
 		Price:        price,

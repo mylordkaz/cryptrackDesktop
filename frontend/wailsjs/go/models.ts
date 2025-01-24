@@ -58,6 +58,7 @@ export namespace models {
 	}
 	export class Transaction {
 	    id: string;
+	    userId: string;
 	    CryptoSymbol: string;
 	    amount: number;
 	    price: number;
@@ -79,6 +80,7 @@ export namespace models {
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.id = source["id"];
+	        this.userId = source["userId"];
 	        this.CryptoSymbol = source["CryptoSymbol"];
 	        this.amount = source["amount"];
 	        this.price = source["price"];

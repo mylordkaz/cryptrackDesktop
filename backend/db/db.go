@@ -33,11 +33,6 @@ func NewDatabase(paths *config.Paths) (*Database, error) {
 		paths: paths,
 	}
 
-	// Run migration from JSON
-	if err := MigrateFromJSON(database); err != nil {
-		return nil, err
-	}
-
 	return database, nil
 }
 
@@ -46,9 +41,9 @@ func (d *Database) SaveTransaction(tx *models.Transaction) error {
 	return d.db.Save(tx).Error
 }
 
-func (d *Database) GetTransactions() ([]models.Transaction, error) {
+func (d *Database) GetTransactions(userID string) ([]models.Transaction, error) {
 	var transactions []models.Transaction
-	err := d.db.Order("date asc").Find(&transactions).Error
+	err := d.db.Where("user_id = ?", userID).Order("date asc").Find(&transactions).Error
 	return transactions, err
 }
 
@@ -56,9 +51,9 @@ func (d *Database) DeleteTransaction(id string) error {
 	return d.db.Unscoped().Delete(&models.Transaction{}, "id = ?", id).Error
 }
 
-func (d *Database) GetTransactionsByCrypto(symbol string) ([]models.Transaction, error) {
+func (d *Database) GetTransactionsByCrypto(userID, symbol string) ([]models.Transaction, error) {
 	var transactions []models.Transaction
-	err := d.db.Where("crypto_symbol = ?", symbol).Order("date desc").Find(&transactions).Error
+	err := d.db.Where("user_id = ? AND crypto_symbol = ?", userID, symbol).Order("date desc").Find(&transactions).Error
 	return transactions, err
 }
 
