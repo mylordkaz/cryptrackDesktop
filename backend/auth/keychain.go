@@ -4,6 +4,7 @@ import (
 	"cryptrack/backend/models"
 	"encoding/json"
 	"fmt"
+	"time"
 
 	"github.com/keybase/go-keychain"
 )
@@ -14,7 +15,11 @@ const (
 )
 
 func SaveToKeychain(user *models.User) error {
-	userData, err := json.Marshal(user)
+	session := models.UserSession{
+		User:      user,
+		Timestamp: time.Now(),
+	}
+	userData, err := json.Marshal(session)
 	if err != nil {
 		return fmt.Errorf("failed to marshal user: %w", err)
 	}
@@ -46,12 +51,17 @@ func LoadFromKeychain() (*models.User, error) {
 		return nil, fmt.Errorf("no keychain item found")
 	}
 
-	var user models.User
-	if err := json.Unmarshal(data[0].Data, &user); err != nil {
-		return nil, fmt.Errorf("failed to unmarshal user: %w", err)
+	var session models.UserSession
+	if err := json.Unmarshal(data[0].Data, &session); err != nil {
+		return nil, fmt.Errorf("failed to unmarshal UserSession: %w", err)
 	}
 
-	return &user, nil
+	if time.Since(session.Timestamp) > 3*time.Hour {
+		DeleteFromKeychain()
+		return nil, fmt.Errorf("session expired")
+	}
+
+	return session.User, nil
 }
 
 func DeleteFromKeychain() error {

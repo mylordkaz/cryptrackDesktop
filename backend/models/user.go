@@ -14,6 +14,11 @@ type User struct {
 	UpdatedAt time.Time `gorm:"autoUpdatedTime"`
 }
 
+type UserSession struct {
+	User      *User     `json:"user"`
+	Timestamp time.Time `json:"timestamp"`
+}
+
 func (u *User) SetPassword(password string) error {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
