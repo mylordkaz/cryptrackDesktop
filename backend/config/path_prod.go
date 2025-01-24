@@ -14,7 +14,7 @@ func GetPaths(env Environment) (*Paths, error) {
 	}
 
 	appDir := filepath.Join(homeDir, "Library", "Application Support", "com.cryptrack")
-	if err := os.MkdirAll(appDir, 0755); err != nil {
+	if err := os.MkdirAll(appDir, 0700); err != nil {
 		return nil, err
 	}
 
