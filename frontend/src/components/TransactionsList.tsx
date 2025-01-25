@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DeleteTransaction } from "../../wailsjs/go/main/App";
 import { formatCrypto, formatNumber } from "../utils/numberFormat";
 import { calculGainStats } from "../utils/stats";
@@ -22,6 +22,11 @@ interface TransactionListProps {
   setTransactions: (transactions: any[]) => void;
 }
 
+interface NotePosition {
+  top: number;
+  left: number;
+}
+
 export function TransactionList({
   cryptoSymbol,
   transactions,
@@ -35,11 +40,7 @@ export function TransactionList({
   const [activeNote, setActiveNote] = useState<string | null>(null);
   const sumTotal = transactions.reduce((sum, tx) => sum + tx.amount, 0);
   const totalValue = sumTotal * currentPrice;
-  const [notePosition, setNotePosition] = useState<{
-    top: number;
-    left: number;
-  } | null>(null);
-
+  const [notePosition, setNotePosition] = useState<NotePosition | null>(null);
   const stats = calculGainStats(transactions, currentPrice);
 
   const handleEdit = (transaction: any) => {
@@ -65,6 +66,19 @@ export function TransactionList({
       console.error("Failed to delete transaction:", error);
     }
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (activeNote) {
+        setActiveNote(null);
+        setNotePosition(null);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [activeNote]);
+
   return (
     <>
       <div className="bg-surface-card dark:bg-dark-surface-card rounded-lg shadow-sm ">
@@ -162,8 +176,8 @@ export function TransactionList({
                           const rect = e.currentTarget.getBoundingClientRect();
                           setActiveNote(tx.note);
                           setNotePosition({
-                            top: rect.bottom + window.scrollY,
-                            left: rect.left + window.scrollX,
+                            top: rect.top,
+                            left: rect.left,
                           });
                         }}
                       >
@@ -220,8 +234,8 @@ export function TransactionList({
             <div
               className="fixed z-50 bg-surface-card dark:bg-dark-surface-card rounded-lg shadow-sm border border-border dark:border-dark-border p-4 max-w-xs"
               style={{
-                top: `${notePosition.top}px`,
-                left: `${notePosition.left}px`,
+                top: notePosition.top,
+                left: notePosition.left + 24,
               }}
             >
               <div className="text-sm text-primary dark:text-dark-primary whitespace-pre-wrap">

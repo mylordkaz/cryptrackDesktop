@@ -2,12 +2,9 @@
   "$schema": "https://wails.io/schemas/config.v2.json",
   "name": "Cryptrack",
   "info": {
-    "icon": "build/appicon.icns"
+    "icon": ["build/darwin/appicon.icns"]
   },
   "outputfilename": "Cryptrack",
-  "mac": {
-    "icon": "build/appicon.icns"
-  },
   "frontend:install": "npm install",
   "frontend:build": "npm run build",
   "frontend:dev:watcher": "npm run dev",
