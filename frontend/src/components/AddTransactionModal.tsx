@@ -62,16 +62,18 @@ export function AddTransactionModal({
   }, [quantity, price]);
 
   useEffect(() => {
-    const loadCryptos = async () => {
-      try {
-        const cryptos = await GetCryptosList();
-        setCryptoList(cryptos);
-      } catch (error) {
-        console.error("Failed to load cryptos list:", error);
-      }
-    };
-    loadCryptos();
-  }, []);
+    if (isOpen) {
+      const loadCryptos = async () => {
+        try {
+          const cryptos = await GetCryptosList();
+          setCryptoList(cryptos);
+        } catch (error) {
+          console.error("Failed to load cryptos list:", error);
+        }
+      };
+      loadCryptos();
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     if (selectedCrypto) {
