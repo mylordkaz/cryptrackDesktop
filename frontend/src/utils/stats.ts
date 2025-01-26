@@ -1,15 +1,17 @@
 export function calculGainStats(transactions: any[], currentPrice: number) {
-  const totalInvest = transactions.reduce((sum, tx) => {
-    if (tx.type === "buy") {
-      return sum + tx.total;
-    }
-    return sum;
+  // Calculate net investment (buys - sells)
+  const netInvestment = transactions.reduce((sum, tx) => {
+    return sum + tx.total; // Sells already have negative total
   }, 0);
 
-  const totalAmount = transactions.reduce((sum, tx) => sum + tx.amount, 0);
-  const currentValue = totalAmount * currentPrice;
+  // Calculate net holdings
+  const netHoldings = transactions.reduce((sum, tx) => sum + tx.amount, 0);
+  const currentValue = netHoldings * currentPrice;
+
   const gainLossPercentage =
-    totalInvest > 0 ? ((currentValue - totalInvest) / totalInvest) * 100 : 0;
+    netInvestment !== 0
+      ? ((currentValue - netInvestment) / Math.abs(netInvestment)) * 100
+      : 0;
 
   return { currentValue, gainLossPercentage };
 }
